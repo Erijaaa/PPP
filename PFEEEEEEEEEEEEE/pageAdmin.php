@@ -81,7 +81,31 @@
                         </div>
                     </form>
                 </div>
+                <div>
+                    <?php foreach ($users as $user): ?>
+                    <tr>
+                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">
+                            <strong><?php echo htmlspecialchars($user['name']); ?></strong>
+                        </td>
+                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">
+                            <?php echo htmlspecialchars($user['identification_number']); ?>
+                        </td>
+                        <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">
+                            <?php echo htmlspecialchars($user['email']); ?>
+                        </td>
+                        <td style="padding: 12px; text-align: center; border: 1px solid #ddd;">
+                            <a href="edit_user.php?id=<?php echo $user['id']; ?>" 
+                            style="background: #f39c12; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;">تعديل</a>
 
+                            <?php if ($user['id'] != $_SESSION['user_id']): ?>
+                            <a href="?delete=<?php echo $user['id']; ?>" 
+                            style="background: #e74c3c; color: white; padding: 5px 10px; text-decoration: none; border-radius: 3px;"
+                            onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">حذف</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </div>
             </div>
 
             <!-- Requests Management Section -->

@@ -8,11 +8,10 @@ class ClsConnect {
 
     public function __construct() {
         $host = "localhost";
-        //$port = "5432";
-        $port = "5431";
+        $port = "5432";
         $dbname = "pfe_bdd";
         $username = "postgres";
-        $password = "erij";
+        $password = "pfe";
 
         try {
             $this->conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
@@ -372,7 +371,7 @@ class contratManager {
             $annee = date('Y', strtotime($date_demande));
             $annee_demande = $annee;
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam(':id_contrat', $id_contrat);/
+            $stmt->bindParam(':id_contrat', $id_contrat);
             $stmt->bindParam(':id_demande', $id_demande);
             $stmt->bindParam(':annee_demande', $annee_demande);
             $stmt->bindParam(':date_demande', $date_demande);

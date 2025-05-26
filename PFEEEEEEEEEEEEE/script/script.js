@@ -118,9 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentRow = modal.dataset.currentRow;
         const documentsTable = document.getElementById("documents-table");
         if (currentRow && documentsTable.rows[currentRow]) {
-          documentsTable.rows[currentRow].cells[1].innerHTML = (
-            <span class="document-link">${documentName}</span>
-          );
+          // FIXED: Changed JSX syntax to template literal
+          documentsTable.rows[currentRow].cells[1].innerHTML = (`<span class="document-link">${documentName}</span>`);
           setupDocumentCellListeners();
         }
       }
@@ -156,6 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
 // Get the modal
 var modal = document.getElementById("myModal");
 
@@ -189,6 +189,7 @@ document.getElementById("identityForm").onsubmit = function (e) {
   alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
   modal.style.display = "none";
 };
+
 // Script pour ajouter une nouvelle ligne au tableau
 document.addEventListener("DOMContentLoaded", function () {
   const ajouterPieceBtn = document.getElementById("ajouter-piece");
@@ -222,7 +223,6 @@ function saveContract() {
   console.log("تم حفظ العقد");
 }
 
-//wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 document.addEventListener("DOMContentLoaded", function () {
   // Menu navigation functionality
   const menuItems = document.querySelectorAll(".menu-item");
@@ -249,43 +249,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Agent form submission
   const agentForm = document.getElementById("agentForm");
-  agentForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+  if (agentForm) {
+    agentForm.addEventListener("submit", function (e) {
+      e.preventDefault();
 
-    const name = document.getElementById("agentName").value;
-    const email = document.getElementById("agentEmail").value;
+      const name = document.getElementById("agentName").value;
+      const email = document.getElementById("agentEmail").value;
 
-    if (name && email) {
-      addAgentToList(name, email);
-      clearForm();
-      alert("تم إضافة الوكيل بنجاح!");
-    }
-  });
+      if (name && email) {
+        addAgentToList(name, email);
+        clearForm();
+        alert("تم إضافة الوكيل بنجاح!");
+      }
+    });
+  }
 
   // Add agent to list
   function addAgentToList(name, email) {
     const agentsList = document.getElementById("agentsList");
-    const agentItem = document.createElement("div");
-    agentItem.className = "agent-item";
+    if (agentsList) {
+      const agentItem = document.createElement("div");
+      agentItem.className = "agent-item";
 
-    agentItem.innerHTML = `
-          <div class="agent-info">
-              <strong>${name}</strong>
-              <span class="agent-email">${email}</span>
-          </div>
-          <div class="agent-actions">
-              <button class="btn btn-small btn-edit" onclick="editAgent(this)">تعديل</button>
-              <button class="btn btn-small btn-delete" onclick="deleteAgent(this)">حذف</button>
-          </div>
-      `;
+      agentItem.innerHTML = `
+            <div class="agent-info">
+                <strong>${name}</strong>
+                <span class="agent-email">${email}</span>
+            </div>
+            <div class="agent-actions">
+                <button class="btn btn-small btn-edit" onclick="editAgent(this)">تعديل</button>
+                <button class="btn btn-small btn-delete" onclick="deleteAgent(this)">حذف</button>
+            </div>
+        `;
 
-    agentsList.appendChild(agentItem);
+      agentsList.appendChild(agentItem);
+    }
   }
 
   // Global functions for agent management
   window.clearForm = function () {
-    document.getElementById("agentName").value = "";
-    document.getElementById("agentEmail").value = "";
+    const agentName = document.getElementById("agentName");
+    const agentEmail = document.getElementById("agentEmail");
+    if (agentName) agentName.value = "";
+    if (agentEmail) agentEmail.value = "";
   };
 
   window.editAgent = function (button) {
@@ -293,10 +299,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const name = agentItem.querySelector("strong").textContent;
     const email = agentItem.querySelector(".agent-email").textContent;
 
-    document.getElementById("agentName").value = name;
-    document.getElementById("agentEmail").value = email;
+    const agentName = document.getElementById("agentName");
+    const agentEmail = document.getElementById("agentEmail");
+    if (agentName) agentName.value = name;
+    if (agentEmail) agentEmail.value = email;
 
-    // You can add more edit functionality here
     alert("يمكنك الآن تعديل بيانات الوكيل");
   };
 
@@ -309,102 +316,107 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 });
 
-//wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
-// Agent form submission
-const agentForm = document.getElementById("agentForm");
-agentForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
+// Agent form submission for the enhanced version
+const agentFormEnhanced = document.getElementById("agentForm");
+if (agentFormEnhanced) {
+  agentFormEnhanced.addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-  const post = document.getElementById("post").value; // Rôle (1 ou 2)
-  const name = document.getElementById("agentName").value;
-  const cin = document.getElementById("cin").value;
-  const email = document.getElementById("agentEmail").value;
-  const password = document.getElementById("password").value;
+    const post = document.getElementById("post").value;
+    const name = document.getElementById("agentName").value;
+    const cin = document.getElementById("cin").value;
+    const email = document.getElementById("agentEmail").value;
+    const password = document.getElementById("password").value;
 
-  if (post && name && cin && email && password) {
-    // Convertir la valeur en rôle (1 = redacteur, 2 = valideur)
-    const role = post === "1" ? "redacteur" : post === "2" ? "valideur" : "";
+    if (post && name && cin && email && password) {
+      // Convert value to role (1 = redacteur, 2 = valideur)
+      const role = post === "1" ? "redacteur" : post === "2" ? "valideur" : "";
 
-    if (!role) {
-      alert("يرجى إدخال 1 للرئيس التحرير أو 2 للمحقق في حقل عدد الصلاحية.");
-      return;
-    }
-
-    try {
-      const response = await fetch("connect.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `action=add_agent&role=${role}&name=${encodeURIComponent(
-          name
-        )}&cin=${encodeURIComponent(cin)}&email=${encodeURIComponent(
-          email
-        )}&password=${encodeURIComponent(password)}`,
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        addAgentToList(name, cin, email, role);
-        clearForm();
-        alert("تم إضافة المستخدم بنجاح!");
-      } else {
-        alert("حدث خطأ: " + result.message);
+      if (!role) {
+        alert("يرجى إدخال 1 للرئيس التحرير أو 2 للمحقق في حقل عدد الصلاحية.");
+        return;
       }
-    } catch (error) {
-      console.error("Erreur:", error);
-      alert("حدث خطأ أثناء الاتصال بالخادم.");
-    }
-  } else {
-    alert("يرجى ملء جميع الحقول.");
-  }
-});
 
-// Fonction pour charger les agents existants au chargement de la page
+      try {
+        const response = await fetch("connect.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `action=add_agent&role=${role}&name=${encodeURIComponent(
+            name
+          )}&cin=${encodeURIComponent(cin)}&email=${encodeURIComponent(
+            email
+          )}&password=${encodeURIComponent(password)}`,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          addAgentToListEnhanced(name, cin, email, role);
+          clearFormEnhanced();
+          alert("تم إضافة المستخدم بنجاح!");
+        } else {
+          alert("حدث خطأ: " + result.message);
+        }
+      } catch (error) {
+        console.error("Erreur:", error);
+        alert("حدث خطأ أثناء الاتصال بالخادم.");
+      }
+    } else {
+      alert("يرجى ملء جميع الحقول.");
+    }
+  });
+}
+
+// Function to load existing agents on page load
 async function loadAgents() {
   try {
     const response = await fetch("connect.php?action=get_agents");
     const agents = await response.json();
 
     const agentsList = document.getElementById("agentsList");
-    agentsList.innerHTML = ""; // Vider la liste actuelle
+    if (agentsList) {
+      agentsList.innerHTML = ""; // Clear current list
 
-    agents.forEach((agent) => {
-      addAgentToList(agent.name, agent.cin, agent.email, agent.role);
-    });
+      agents.forEach((agent) => {
+        addAgentToListEnhanced(agent.name, agent.cin, agent.email, agent.role);
+      });
+    }
   } catch (error) {
     console.error("Erreur lors du chargement des agents:", error);
   }
 }
 
-// Charger les agents au démarrage
+// Load agents on startup
 document.addEventListener("DOMContentLoaded", loadAgents);
 
-// Fonction pour ajouter un agent à la liste visuellement
-function addAgentToList(name, cin, email, role) {
+// Function to add an agent to the list visually
+function addAgentToListEnhanced(name, cin, email, role) {
   const agentsList = document.getElementById("agentsList");
-  const agentItem = document.createElement("div");
-  agentItem.className = "agent-item";
+  if (agentsList) {
+    const agentItem = document.createElement("div");
+    agentItem.className = "agent-item";
 
-  const roleText = role === "redacteur" ? "رئيس التحرير" : "محقق";
-  agentItem.innerHTML = `
-        <div class="agent-info">
-            <strong>${name}</strong> <span style="color: gray;">(${roleText})</span>
-            <span class="agent-cin">${cin}</span>
-            <span class="agent-email">${email}</span>
-        </div>
-        <div class="agent-actions">
-            <button class="btn btn-small btn-edit" onclick="editAgent(this)">تعديل</button>
-            <button class="btn btn-small btn-delete" onclick="deleteAgent(this)">حذف</button>
-        </div>
-    `;
+    const roleText = role === "redacteur" ? "رئيس التحرير" : "محقق";
+    agentItem.innerHTML = `
+          <div class="agent-info">
+              <strong>${name}</strong> <span style="color: gray;">(${roleText})</span>
+              <span class="agent-cin">${cin}</span>
+              <span class="agent-email">${email}</span>
+          </div>
+          <div class="agent-actions">
+              <button class="btn btn-small btn-edit" onclick="editAgentEnhanced(this)">تعديل</button>
+              <button class="btn btn-small btn-delete" onclick="deleteAgentEnhanced(this)">حذف</button>
+          </div>
+      `;
 
-  agentsList.appendChild(agentItem);
+    agentsList.appendChild(agentItem);
+  }
 }
 
-// Fonction pour supprimer un agent
-window.deleteAgent = async function (button) {
+// Function to delete an agent
+window.deleteAgentEnhanced = async function (button) {
   if (confirm("هل أنت متأكد من حذف هذا المستخدم؟")) {
     const agentItem = button.closest(".agent-item");
     const email = agentItem.querySelector(".agent-email").textContent;
@@ -440,39 +452,26 @@ window.deleteAgent = async function (button) {
   }
 };
 
-// Fonction pour vider le formulaire
-window.clearForm = function () {
-  document.getElementById("post").value = "";
-  document.getElementById("agentName").value = "";
-  document.getElementById("cin").value = "";
-  document.getElementById("agentEmail").value = "";
-  document.getElementById("password").value = "";
+// Function to clear the form
+window.clearFormEnhanced = function () {
+  const post = document.getElementById("post");
+  const agentName = document.getElementById("agentName");
+  const cin = document.getElementById("cin");
+  const agentEmail = document.getElementById("agentEmail");
+  const password = document.getElementById("password");
+  
+  if (post) post.value = "";
+  if (agentName) agentName.value = "";
+  if (cin) cin.value = "";
+  if (agentEmail) agentEmail.value = "";
+  if (password) password.value = "";
 };
 
-// Fonction pour modifier un agent (non implémentée ici, mais ajoutée pour référence)
-window.editAgent = function (button) {
-  const agentItem = button.closest(".agent-item");
-  const name = agentItem.querySelector("strong").textContent;
-  const cin = agentItem.querySelector(".agent-cin").textContent;
-  const email = agentItem.querySelector(".agent-email").textContent;
-  const roleText = agentItem
-    .querySelector("strong")
-    .nextSibling.textContent.includes("رئيس التحرير")
-    ? "1"
-    : "2";
-
-  document.getElementById("post").value = roleText;
-  document.getElementById("agentName").value = name;
-  document.getElementById("cin").value = cin;
-  document.getElementById("agentEmail").value = email;
-  // Note : Le mot de passe n'est pas rempli pour des raisons de sécurité
-  alert("يمكنك الآن تعديل بيانات المستخدم");
-};
-// Variable pour suivre l'email de l'agent en cours de modification
+// Variable to track the email of the agent being edited
 let editingEmail = null;
 
-// Fonction pour modifier un agent
-window.editAgent = function (button) {
+// Function to edit an agent
+window.editAgentEnhanced = function (button) {
   const agentItem = button.closest(".agent-item");
   const name = agentItem.querySelector("strong").textContent;
   const cin = agentItem.querySelector(".agent-cin").textContent;
@@ -483,78 +482,18 @@ window.editAgent = function (button) {
     ? "1"
     : "2";
 
-  document.getElementById("post").value = roleText;
-  document.getElementById("agentName").value = name;
-  document.getElementById("cin").value = cin;
-  document.getElementById("agentEmail").value = email;
-  document.getElementById("password").value = ""; // Ne pas remplir le mot de passe pour des raisons de sécurité
+  const post = document.getElementById("post");
+  const agentName = document.getElementById("agentName");
+  const cinInput = document.getElementById("cin");
+  const agentEmail = document.getElementById("agentEmail");
+  const password = document.getElementById("password");
 
-  editingEmail = email; // Stocker l'email pour savoir quel agent modifier
+  if (post) post.value = roleText;
+  if (agentName) agentName.value = name;
+  if (cinInput) cinInput.value = cin;
+  if (agentEmail) agentEmail.value = email;
+  if (password) password.value = ""; // Don't fill password for security reasons
+
+  editingEmail = email; // Store email to know which agent to modify
   alert("يمكنك الآن تعديل بيانات المستخدم");
 };
-
-// Agent form submission (mise à jour pour gérer ajout et modification)
-const agentForm = document.getElementById("agentForm");
-agentForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const post = document.getElementById("post").value;
-  const name = document.getElementById("agentName").value;
-  const cin = document.getElementById("cin").value;
-  const email = document.getElementById("agentEmail").value;
-  const password = document.getElementById("password").value;
-
-  if (post && name && cin && email && password) {
-    const role = post === "1" ? "redacteur" : post === "2" ? "valideur" : "";
-
-    if (!role) {
-      alert("يرجى إدخال 1 للرئيس التحرير أو 2 للمحقق في حقل عدد الصلاحية.");
-      return;
-    }
-
-    try {
-      // Déterminer si c'est un ajout ou une modification
-      const action = editingEmail ? "update_agent" : "add_agent";
-      const body = editingEmail
-        ? `action=${action}&role=${role}&oldEmail=${encodeURIComponent(
-            editingEmail
-          )}&name=${encodeURIComponent(name)}&cin=${encodeURIComponent(
-            cin
-          )}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(
-            password
-          )}`
-        : `action=${action}&role=${role}&name=${encodeURIComponent(
-            name
-          )}&cin=${encodeURIComponent(cin)}&email=${encodeURIComponent(
-            email
-          )}&password=${encodeURIComponent(password)}`;
-
-      const response = await fetch("connect.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: body,
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Recharger la liste des agents
-        loadAgents();
-        clearForm();
-        editingEmail = null; // Réinitialiser après modification
-        alert(
-          editingEmail ? "تم تعديل المستخدم بنجاح!" : "تم إضافة المستخدم بنجاح!"
-        );
-      } else {
-        alert("حدث خطأ: " + result.message);
-      }
-    } catch (error) {
-      console.error("Erreur:", error);
-      alert("حدث خطأ أثناء الاتصال بالخادم.");
-    }
-  } else {
-    alert("يرجى ملء جميع الحقول.");
-  }
-});

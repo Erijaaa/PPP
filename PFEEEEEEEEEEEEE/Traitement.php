@@ -101,11 +101,11 @@ $sujetContrat = $db->getSubject($id_demande);
             <div class="person-title">طالب الخدمة</div>
             <div class="person-field">
               <span style="margin: 3px">الاسم</span>
-              <input type="text" name="prenom_deposant" value="<?= $deposant ? htmlspecialchars($deposant['prenom']) : '' ?>" />
+              <input type="text" name="prenom_deposant" value="<?= $deposant ? htmlspecialchars($deposant['prenom_deposant']) : '' ?>" />
             </div>
             <div class="person-field">
               <span style="margin: 3px">اللقب</span>
-              <input type="text" name="nom_deposant" value="<?= $deposant ? htmlspecialchars($deposant['nom']) : '' ?>" />
+              <input type="text" name="nom_deposant" value="<?= $deposant ? htmlspecialchars($deposant['nom_deposant']) : '' ?>" />
             </div>
           </div>
 
@@ -224,22 +224,22 @@ $sujetContrat = $db->getSubject($id_demande);
                     <?php foreach ($pieces_jointes as $piece): ?>
                         <tr>
                           <td><?php echo $compteur++; ?></td>
-                          <td><input type="text" name="lib_pieces[]" value="<?php echo htmlspecialchars($piece['lib_pieces']); ?>" /></td>
+                          <td><input type="text" name="libile_pieces[]" value="<?php echo htmlspecialchars($piece['lib_pieces']); ?>" /></td>
                           <td><input type="text" name="date_document[]" value="<?php echo htmlspecialchars($piece['date_document']); ?>" /></td>
                           <td><input type="text" name="ref_inscription[]" value="<?php echo htmlspecialchars($piece['ref_inscription']); ?>" /></td>
                           <td><input type="text" name="date_ref[]" value="<?php echo htmlspecialchars($piece['date_ref']); ?>" /></td>
-                          <td><input type="text" name="codepiece[]" value="<?php echo htmlspecialchars($piece['codepiece']); ?>" /></td>
+                          <td><input type="text" name="code_pieces[]" value="<?php echo htmlspecialchars($piece['code_pieces']); ?>" /></td>
                           <input type="hidden" name="id_demande[]" value="<?php echo $id_demande; ?>" />
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
                         <td>1</td>
-                        <td><input type="text" name="lib_pieces[]" /></td>
+                        <td><input type="text" name="libile_pieces[]" /></td>
                         <td><input type="text" name="date_document[]" /></td>
                         <td><input type="text" name="ref_inscription[]" /></td>
                         <td><input type="text" name="date_ref[]" /></td>
-                        <td><input type="text" name="codepiece[]" /></td>
+                        <td><input type="text" name="code_pieces[]" /></td>
                         <input type="hidden" name="id_demande[]" value="<?php echo $id_demande; ?>" />
                     </tr>
                 <?php endif; ?>
@@ -912,7 +912,7 @@ $sujetContrat = $db->getSubject($id_demande);
         <div style="text-align: center; margin-top: 20px;">
           <button style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
           حفظ العقد
-            </button>
+          </button>
         </div>
       </div>
 
