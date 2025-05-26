@@ -119,7 +119,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const documentsTable = document.getElementById("documents-table");
         if (currentRow && documentsTable.rows[currentRow]) {
           // FIXED: Changed JSX syntax to template literal
-          documentsTable.rows[currentRow].cells[1].innerHTML = (`<span class="document-link">${documentName}</span>`);
+          documentsTable.rows[
+            currentRow
+          ].cells[1].innerHTML = `<span class="document-link">${documentName}</span>`;
           setupDocumentCellListeners();
         }
       }
@@ -459,7 +461,7 @@ window.clearFormEnhanced = function () {
   const cin = document.getElementById("cin");
   const agentEmail = document.getElementById("agentEmail");
   const password = document.getElementById("password");
-  
+
   if (post) post.value = "";
   if (agentName) agentName.value = "";
   if (cin) cin.value = "";
@@ -497,3 +499,32 @@ window.editAgentEnhanced = function (button) {
   editingEmail = email; // Store email to know which agent to modify
   alert("يمكنك الآن تعديل بيانات المستخدم");
 };
+
+//ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ
+function showEditForm(button, userData) {
+  const row = button.closest("tr");
+  const nextRow = row.nextElementSibling;
+
+  // Masquer tous les autres formulaires
+  document
+    .querySelectorAll(".edit-form-row")
+    .forEach((r) => (r.style.display = "none"));
+
+  // Afficher ce formulaire
+  nextRow.style.display = "table-row";
+
+  // Préremplir les champs
+  const form = nextRow.querySelector("form");
+  form.agentName.value = (userData.nom || "") + " " + (userData.prenom || "");
+  form.cin.value = userData.identification_number || "";
+  form.agentEmail.value = userData.email || "";
+  form.agentAdresse.value = userData.adresse || "";
+  form.agentTele.value = userData.telephone || "";
+  form.agentNaissance.value = userData.date_naissance || "";
+  form.password.value = ""; // On ne préremplit pas le mot de passe pour la sécurité
+}
+
+function hideEditForm(button) {
+  const row = button.closest("tr");
+  row.style.display = "none";
+}

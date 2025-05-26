@@ -11,7 +11,7 @@ if (isset($_POST['code'])) {
         // Code correct, marquer l'utilisateur comme vérifié
         $_SESSION['verified'] = true;
         // Rediriger vers la page d'accueil ou le tableau de bord
-        header("Location: consultation.php");
+        header("Location: pageRedacteur.php");
         exit();
     } else {
         $error_message = "Code de vérification incorrect. Veuillez réessayer.";

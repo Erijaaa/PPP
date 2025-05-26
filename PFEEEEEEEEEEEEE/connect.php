@@ -296,6 +296,92 @@ class ClsConnect {
         }
     }
 
+
+    function getTousLesUtilisateurs($conn) {
+        $sql = "
+            SELECT 
+                id_redacteur AS id,
+                nom_redacteur AS nom,
+                prenom_redacteur AS prenom,
+                cin_redacteur AS identification_number,
+                password,
+                post,
+                email,
+                adresse,
+                telephone,
+                'redacteur' AS role 
+            FROM redacteur
+            UNION
+            SELECT 
+                id_valideur AS id,
+                nom_valideur AS nom,
+                prenom_valideur AS prenom,
+                cin_valideur AS identification_number,
+                password,
+                post,
+                email,
+                adresse,
+                telephone,
+                'valideur' AS role 
+            FROM valideur
+        ";
+    
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Vérifie si les champs nécessaires sont présents
+            if (isset($_POST['post'], $_POST['agentName'], $_POST['cin'], $_POST['agentEmail'])) {
+        
+                $post = $_POST['post']; // 1 ou 2
+                $nomPrenom = trim($_POST['agentName']);
+                $cin = trim($_POST['cin']);
+                $email = trim($_POST['agentEmail']);
+                $adresse = trim($_POST['agentAdresse']);
+                $telephone = trim($_POST['agentTele']);
+                $date_naissance = $_POST['agentNaissance'];
+                $password = password_hash(trim($_POST['password']), PASSWORD_DEFAULT);
+        
+                // Séparer le nom et prénom
+                $parts = explode(' ', $nomPrenom, 2);
+                $nom = $parts[0] ?? '';
+                $prenom = $parts[1] ?? '';
+        
+                // Déterminer la table selon le post
+                if ($post == 1) {
+                    $table = 'redacteur';
+                } elseif ($post == 2) {
+                    $table = 'valideur';
+                } else {
+                    die("Valeur de 'post' invalide.");
+                }
+        
+                // Requête d'insertion
+                $sql = "INSERT INTO $table (nom, prenom, identification_number, email, adresse, telephone, date_naissance, password)
+                        VALUES (:nom, :prenom, :cin, :email, :adresse, :telephone, :date_naissance, :password)";
+                $stmt = $pdo->prepare($sql);
+        
+                $stmt->bindParam(':nom', $nom);
+                $stmt->bindParam(':prenom', $prenom);
+                $stmt->bindParam(':cin', $cin);
+                $stmt->bindParam(':email', $email);
+                $stmt->bindParam(':adresse', $adresse);
+                $stmt->bindParam(':telephone', $telephone);
+                $stmt->bindParam(':date_naissance', $date_naissance);
+                $stmt->bindParam(':password', $password);
+        
+                if ($stmt->execute()) {
+                    echo "Utilisateur ajouté avec succès.";
+                } else {
+                    echo "Erreur lors de l'ajout.";
+                }
+            } else {
+                echo "Champs requis manquants.";
+            }
+        }
+    }
+
+
 }
 
 
