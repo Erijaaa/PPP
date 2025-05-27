@@ -224,9 +224,9 @@ $sujetContrat = $db->getSubject($id_demande);
                     <?php foreach ($pieces_jointes as $piece): ?>
                         <tr>
                           <td><?php echo $compteur++; ?></td>
-                          <td><input type="text" name="libile_pieces[]" value="<?php echo htmlspecialchars($piece['lib_pieces']); ?>" /></td>
+                          <td><input type="text" name="libile_pieces[]" value="<?php echo htmlspecialchars($piece['libile_pieces']); ?>" /></td>
                           <td><input type="text" name="date_document[]" value="<?php echo htmlspecialchars($piece['date_document']); ?>" /></td>
-                          <td><input type="text" name="ref_inscription[]" value="<?php echo htmlspecialchars($piece['ref_inscription']); ?>" /></td>
+                          <td><input type="text" name="ref_document[]" value="<?php echo htmlspecialchars($piece['ref_document']); ?>" /></td>
                           <td><input type="text" name="date_ref[]" value="<?php echo htmlspecialchars($piece['date_ref']); ?>" /></td>
                           <td><input type="text" name="code_pieces[]" value="<?php echo htmlspecialchars($piece['code_pieces']); ?>" /></td>
                           <input type="hidden" name="id_demande[]" value="<?php echo $id_demande; ?>" />
