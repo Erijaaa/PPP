@@ -582,7 +582,18 @@ $sujetContrat = $db->getSubject($id_demande);
                     ></textarea>
                   </div>
                 </div> 
-                <button type="submit" class="submit-btn">حفظ البيانات</button>
+                <div id="overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999;" onclick="hideMessage()"></div>
+
+
+                <!-- VOTRE BOUTON -->
+                <button type="button" onclick="showMessage(); return false;">حفظ البيانات</button>
+                
+                <!-- MESSAGE DE SUCCÈS -->
+                <div id="message" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border:2px solid green; border-radius:10px; text-align:center; z-index:1000;">
+                    <div style="color:green; font-size:2em;">✅</div>
+                    <div style="font-size:1.2em; margin:10px 0;">تم حفظ البيانات بنجاح في قاعدة البيانات</div>
+                    <button onclick="hideMessage()">موافق</button>
+                </div>
               </form>
             </div>
           </div>

@@ -191,7 +191,49 @@ document.getElementById("identityForm").onsubmit = function (e) {
   alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
   modal.style.display = "none";
 };
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+/*function showSuccessMessage() {
+  // Empêcher tout comportement par défaut
+  event.preventDefault();
+  event.stopPropagation();
 
+  document.getElementById("successOverlay").style.display = "flex";
+
+  // Empêcher le retour (return false)
+  return false;
+}
+
+function hideSuccessMessage() {
+  document.getElementById("successOverlay").style.display = "none";
+}
+
+// Fermer avec la touche Escape
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    hideSuccessMessage();
+  }
+});
+
+// Fermer en cliquant sur l'overlay
+document
+  .getElementById("successOverlay")
+  .addEventListener("click", function (e) {
+    if (e.target === this) {
+      hideSuccessMessage();
+    }
+  });*/
+  function showMessage() {
+    document.getElementById('message').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+    return false; // Important !
+}
+
+function hideMessage() {
+    document.getElementById('message').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 // Script pour ajouter une nouvelle ligne au tableau
 document.addEventListener("DOMContentLoaded", function () {
   const ajouterPieceBtn = document.getElementById("ajouter-piece");
