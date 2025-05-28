@@ -1,0 +1,2 @@
+-- Collez ici le contenu de votre backup PostgreSQL
+-- Ce fichier contiendra la structure et les données de votre base de données 

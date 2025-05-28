@@ -4,25 +4,27 @@ session_start();
 
 
 class ClsConnect {
-    private $conn;
+    private $host = "localhost";
+    private $port = "5432";
+    private $dbname = "pfe_bdd"; // Changez ceci selon votre nom de base de données
+    private $user = "postgres";    // Changez ceci selon votre utilisateur
+    private $pass = "pfe";           // Mettez votre mot de passe ici
+    private $pdo;
 
     public function __construct() {
-        $host = "localhost";
-        $port = "5432";
-        $dbname = "pfe_bdd";
-        $username = "postgres";
-        $password = "pfe";
-
         try {
-            $this->conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Erreur de connexion : " . $e->getMessage());
+            $dsn = "pgsql:host=$this->host;port=$this->port;dbname=$this->dbname;";
+            $this->pdo = new PDO($dsn, $this->user, $this->pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        } catch(PDOException $e) {
+            echo "Erreur de connexion : " . $e->getMessage();
+            die();
         }
     }
 
     public function getConnection() {
-        return $this->conn; 
+        return $this->pdo;
     }
 
 
@@ -33,7 +35,7 @@ class ClsConnect {
             return false;
         }
 
-        $stmt = $this->conn->prepare("SELECT * FROM admin WHERE cin = :cin_admin AND password = :password");
+        $stmt = $this->pdo->prepare("SELECT * FROM admin WHERE cin = :cin_admin AND password = :password");
         $stmt->bindParam(':cin_admin', $cin);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
@@ -85,7 +87,7 @@ class ClsConnect {
 
     public function traitResult($type_demande) {
         $sql = "SELECT * FROM public.\"T_demande\" WHERE type_demande = :type_demande";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':type_demande', $type_demande, PDO::PARAM_INT);
         $stmt->execute();
         
@@ -104,7 +106,7 @@ class ClsConnect {
                     FROM public.\"contrat\" c
                     INNER JOIN public.\"T_demande\" d ON c.id_demande = d.id_demande
                     WHERE d.etat_demande = :etat_demande AND c.etat_contrat = :etat_contrat";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':etat_demande', $etat_demande, PDO::PARAM_INT);
             $stmt->bindParam(':etat_contrat', $etat_contrat, PDO::PARAM_INT);
             $stmt->execute();
@@ -121,7 +123,7 @@ class ClsConnect {
 
     public function getDemandeById($id_demande) {
         $sql = "SELECT * FROM public.\"T_demande\" WHERE id_demande = :id_demande";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':id_demande', $id_demande, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -136,7 +138,7 @@ class ClsConnect {
     public function getidcontract() {
         $sql = "SELECT nextval('public.next-id-contract')";
         //return $sql;
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         //$stmt->execute();
         if ($stmt->rowCount() > 0) {    
             return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -149,12 +151,12 @@ class ClsConnect {
    
     
     function getPiecesJointesByDemande($id_demande) {
-        global $conn;
+        global $pdo;
         
         $id_demande = $id_demande;
         
         $sql = "SELECT * FROM pieces_jointes WHERE id_demande =".$id_demande;
-        $result =$this->conn->query($sql);
+        $result =$pdo->query($sql);
         //echo $result;
         $result->execute();
         return $result;
@@ -171,7 +173,7 @@ class ClsConnect {
 
     public function getAgent($id_demande) {
         $sql = "SELECT * FROM agent WHERE id_demande = :id";
-        $stmt = $this->conn->prepare($sql); 
+        $stmt = $this->pdo->prepare($sql); 
         $stmt->bindParam(':id', $id_demande, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -186,7 +188,7 @@ class ClsConnect {
 
     public function getDeposant($id_demande) {
         $sql = "SELECT * FROM deposant WHERE id_demande = :id";
-        $stmt = $this->conn->prepare($sql); 
+        $stmt = $this->pdo->prepare($sql); 
         $stmt->bindParam(':id', $id_demande, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -200,7 +202,7 @@ class ClsConnect {
 
     public function getSubject($id_demande) {
         $sql = "SELECT * FROM contrat WHERE id_demande = :id";
-        $stmt = $this->conn->prepare($sql); 
+        $stmt = $this->pdo->prepare($sql); 
         $stmt->bindParam(':id', $id_demande, PDO::PARAM_INT);
         $stmt->execute();
 
@@ -228,14 +230,14 @@ class ClsConnect {
     public function getAgents() {
         $agents = [];
         try {
-            $stmtRedacteur = $this->conn->query("SELECT name, cin, email, password FROM redacteur");
+            $stmtRedacteur = $this->pdo->query("SELECT name, cin, email, password FROM redacteur");
             $redacteurs = $stmtRedacteur->fetchAll();
             foreach ($redacteurs as $agent) {
                 $agent['role'] = 'redacteur';
                 $agents[] = $agent;
             }
 
-            $stmtValideur = $this->conn->query("SELECT name, cin, email, password FROM valideur");
+            $stmtValideur = $this->pdo->query("SELECT name, cin, email, password FROM valideur");
             $valideurs = $stmtValideur->fetchAll();
             foreach ($valideurs as $agent) {
                 $agent['role'] = 'valideur';
@@ -257,7 +259,7 @@ class ClsConnect {
         $sql = "DELETE FROM $table WHERE email = :email";
 
         try {
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':email', $email);
             $stmt->execute();
             return json_encode(['success' => true]);
@@ -274,7 +276,7 @@ class ClsConnect {
         $sql = "UPDATE $table SET name = :name, cin = :cin, email = :email, password = :password WHERE email = :oldEmail";
     
         try {
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':cin', $cin);
             $stmt->bindParam(':email', $email);
@@ -380,13 +382,14 @@ class ClsConnect {
             }
         }
     }
+    
 
 
 }
 
 
     /**
-     * Démarre la session et stocke les infos de l’utilisateur.
+     * Démarre la session et stocke les infos de l'utilisateur.
      */
     /*public function demarrerSessionUtilisateur(array $utilisateur): void {
         if (session_status() === PHP_SESSION_NONE) {
@@ -403,7 +406,7 @@ class ClsConnect {
     }
 
     /**
-     * Redirige l’utilisateur selon son rôle.
+     * Redirige l'utilisateur selon son rôle.
      * 0 = admin, 1 = rédacteur, 2 = validateur
      */
     /*public function redirigerParRole(int $role): void {
@@ -426,7 +429,7 @@ class ClsConnect {
 
         /*public function getDemandeById($id_demande) {
             $sql = "SELECT * FROM public.\"T_demande\" WHERE id_demande = :id_demande";
-            $stmt = $this->conn->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':id_demande', $id_demande, PDO::PARAM_INT);
             $stmt->execute();
 
@@ -438,7 +441,7 @@ class ClsConnect {
         
 
         /*public function close() {
-            $this->conn = null;
+            $this->pdo = null;
         }*/
 
 

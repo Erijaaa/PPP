@@ -45,6 +45,7 @@ $pieces_jointes = $db->getPiecesJointesByDemande($id_demande);
 $agent = $db->getAgent($id_demande);
 $deposant = $db->getDeposant($id_demande);
 $sujetContrat = $db->getSubject($id_demande);
+
 ?> 
 
 
@@ -70,14 +71,13 @@ $sujetContrat = $db->getSubject($id_demande);
         <div id="property-burdens" class="menu-item">التحملات على العقار</div>
         <div id="contract-terms" class="menu-item">الأحكام التعاقدية</div>
         <div id="extraction" class="menu-item">الاستخلاص</div>
-        <div id="verification" class="menu-item">تأكيد العقد</div>
       </div>
 
       <!-- General Data Section -->
       <div id="general-data-content" class="main-content active">
       <div class="top-bar">
           <div class="search-form">
-          <span>عدد مطلب التحرير</span>
+            <span>عدد مطلب التحرير</span>
             <input type="text" class="search-input" name="id_demande" 
             value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
             <span>/</span>
@@ -87,7 +87,8 @@ $sujetContrat = $db->getSubject($id_demande);
             <input type="text" class="search-input" name="date_demande" 
             value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
             <span>عدد العقد</span>
-            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          </div>
+            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          
+          </div>
           <img src="media/logo.png" alt="ONPFF" class="logo" />
         </div>
         <div id="form-container">
@@ -586,7 +587,7 @@ $sujetContrat = $db->getSubject($id_demande);
 
 
                 <!-- VOTRE BOUTON -->
-                <button type="button" onclick="showMessage(); return false;">حفظ البيانات</button>
+                <button href="verifierContrat.php" type="button" onclick="showMessage(); return false;">حفظ البيانات</button>
                 
                 <!-- MESSAGE DE SUCCÈS -->
                 <div id="message" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border:2px solid green; border-radius:10px; text-align:center; z-index:1000;">
@@ -919,9 +920,11 @@ $sujetContrat = $db->getSubject($id_demande);
           <label>عدد الوصل</label>
           <input type="text" />
         </div>
-        <form method="post" action="enregistrer_contrat.php">
+        <form method="post" action="verifierContrat.php" id="contractForm">
+        <input type="hidden" name="id_demande" value="<?php echo htmlspecialchars($id_demande); ?>">
+        <input type="hidden" name="num_contrat" value="<?php echo htmlspecialchars($id_contrat); ?>">
         <div style="text-align: center; margin-top: 20px;">
-          <button style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+          <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
           حفظ العقد
           </button>
         </div>
@@ -1059,45 +1062,6 @@ $sujetContrat = $db->getSubject($id_demande);
           <div class="buttons">
             <button class="btn btn-save" id="saveDocument">حفظ</button>
             <button class="btn btn-cancel" id="cancelDocument">إلغاء</button>
-          </div>
-        </div>
-      </div>
-
-    <!-- verification -->
-      <div id="verification" class="menu-item">
-        <div class="top-bar">
-          <div class="search-form">
-            <span>عدد مطلب التحرير</span>
-            <input type="text" class="search-input" name="id_demande" value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
-            <!-- Autres champs -->
-          </div>
-          <img src="media/logo.png" alt="ONPFF" class="logo" />
-        </div>
-        <div class="container">
-          <button class="save-btn">حفظ العقد</button>
-          <div class="objection-section">اعتراض على العقد</div>
-          <div class="form-group">
-            <div class="input-row">
-              <label>السبب:</label>
-              <input type="text" placeholder="أدخل سبب الاعتراض...">
-            </div>
-          </div>
-          <button class="objection-text-btn">نص الاعتراض</button>
-        </div>
-        <div class="modal-overlay" id="modalOverlay">
-          <div class="modal">
-            <button class="close-btn" title="إغلاق">×</button>
-            <div class="modal-header">نص الاعتراض</div>
-            <div class="modal-label-section">اكتب نص الرفض:</div>
-            <div class="modal-body">
-              <div class="textarea-group">
-                <textarea id="objectionText" placeholder="اكتب نص الاعتراض هنا..."></textarea>
-              </div>
-            </div>
-            <div class="modal-buttons">
-              <button class="btn btn-primary">ارسال النص</button>
-              <button class="btn btn-secondary">إلغاء</button>
-            </div>
           </div>
         </div>
       </div>
