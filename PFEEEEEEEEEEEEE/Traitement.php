@@ -75,6 +75,7 @@ $sujetContrat = $db->getSubject($id_demande);
 
       <!-- General Data Section -->
       <div id="general-data-content" class="main-content active">
+      <form action="save_contract.php" method="POST">
       <div class="top-bar">
           <div class="search-form">
             <span>عدد مطلب التحرير</span>
@@ -188,6 +189,10 @@ $sujetContrat = $db->getSubject($id_demande);
             <input type="text" class="identity-field" placeholder="----" />
           </div>
         </div>
+        <div class="button-container">
+          <button type="submit" class="save-button">حفظ البيانات</button>
+        </div>
+      </form>
       </div>
       <!-- Documents Section -->
       <div id="documents-content" class="main-content">
@@ -587,14 +592,9 @@ $sujetContrat = $db->getSubject($id_demande);
 
 
                 <!-- VOTRE BOUTON -->
-                <button href="verifierContrat.php" type="button" onclick="showMessage(); return false;">حفظ البيانات</button>
-                
-                <!-- MESSAGE DE SUCCÈS -->
-                <div id="message" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:30px; border:2px solid green; border-radius:10px; text-align:center; z-index:1000;">
-                    <div style="color:green; font-size:2em;">✅</div>
-                    <div style="font-size:1.2em; margin:10px 0;">تم حفظ البيانات بنجاح في قاعدة البيانات</div>
-                    <button onclick="hideMessage()">موافق</button>
-                </div>
+                <form action="verifierContrat.php" method="post" onsubmit="return showMessage();">              
+                  <button type="submit">حفظ البيانات</button>
+                </form>
               </form>
             </div>
           </div>
@@ -1067,6 +1067,7 @@ $sujetContrat = $db->getSubject($id_demande);
       </div>
     </div>
 </div>
-</body>
-</html>
 <script src="script/script.js"></script>
+</body>
+
+</html>

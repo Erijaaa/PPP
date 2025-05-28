@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // ====== Menu Navigation ======
   const menuItems = document.querySelectorAll(".menu-item");
   const contentSections = document.querySelectorAll(".main-content");
 
@@ -10,152 +11,148 @@ document.addEventListener("DOMContentLoaded", function () {
       this.classList.add("active");
 
       const sectionId = this.id + "-content";
-      document.getElementById(sectionId).classList.add("active");
+      const targetSection = document.getElementById(sectionId);
+      if (targetSection) {
+        targetSection.classList.add("active");
+      }
     });
   });
 
+  // ====== Documents Table ======
   const addDocumentBtn = document.getElementById("add-document");
-  const addPropertyBtn = document.getElementById("add-property");
-  const documentsTable = document
-    .getElementById("documents-table")
-    .querySelector("tbody");
-  const propertyTable = document
-    .getElementById("property-table")
-    .querySelector("tbody");
+  const documentsTable = document.getElementById("documents-table");
+  let documentsTableBody = null;
 
-  if (addDocumentBtn) {
+  if (documentsTable) {
+    documentsTableBody = documentsTable.querySelector("tbody");
+  }
+
+  if (addDocumentBtn && documentsTableBody) {
     addDocumentBtn.addEventListener("click", function () {
-      const rowCount = documentsTable.rows.length;
-      const newRow = documentsTable.insertRow();
+      const rowCount = documentsTableBody.rows.length;
+      const newRow = documentsTableBody.insertRow();
       newRow.innerHTML = `
-                        <td>${rowCount + 1}</td>
-                        <td class="document-cell"><span class="document-link">إضافة وثيقة</span></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><button class="btn-delete">حذف</button></td>
-                    `;
+        <td>${rowCount + 1}</td>
+        <td class="document-cell"><span class="document-link">إضافة وثيقة</span></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><button class="btn-delete">حذف</button></td>
+      `;
 
-      newRow
-        .querySelector(".btn-delete")
-        .addEventListener("click", function () {
-          documentsTable.removeChild(newRow);
-          renumberRows(documentsTable);
+      const deleteBtn = newRow.querySelector(".btn-delete");
+      if (deleteBtn) {
+        deleteBtn.addEventListener("click", function () {
+          documentsTableBody.removeChild(newRow);
+          renumberRows(documentsTableBody);
         });
+      }
 
       setupDocumentCellListeners();
     });
   }
 
-  if (addPropertyBtn) {
-    addPropertyBtn.addEventListener("click", function () {
-      const rowCount = propertyTable.rows.length;
-      const newRow = propertyTable.insertRow();
-      newRow.innerHTML = `
-                        <td>${rowCount + 1}</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><button class="btn-delete">حذف</button></td>
-                    `;
-
-      newRow
-        .querySelector(".btn-delete")
-        .addEventListener("click", function () {
-          propertyTable.removeChild(newRow);
-          renumberRows(propertyTable);
-        });
-    });
-  }
-
+  // ====== Delete Buttons ======
   document.querySelectorAll(".btn-delete").forEach((button) => {
     button.addEventListener("click", function () {
       const row = this.closest("tr");
-      const tbody = row.parentNode;
-      tbody.removeChild(row);
-      renumberRows(tbody);
+      if (row) {
+        const tbody = row.parentNode;
+        if (tbody) {
+          tbody.removeChild(row);
+          renumberRows(tbody);
+        }
+      }
     });
   });
 
+  // ====== Modal Handling ======
+  const myModal = document.getElementById("myModal");
+  const openModalBtn = document.getElementById("openModalBtn");
+  const closeModalBtns = document.getElementsByClassName("close");
+  const identityForm = document.getElementById("identityForm");
+
+  // Modal open/close handlers
+  if (myModal && openModalBtn && closeModalBtns.length > 0) {
+    openModalBtn.addEventListener("click", function() {
+      myModal.style.display = "block";
+    });
+
+    closeModalBtns[0].addEventListener("click", function() {
+      myModal.style.display = "none";
+    });
+
+    window.addEventListener("click", function(event) {
+      if (event.target === myModal) {
+        myModal.style.display = "none";
+      }
+    });
+  }
+
+  // Identity form handler
+  if (identityForm) {
+    identityForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
+      if (myModal) {
+        myModal.style.display = "none";
+      }
+    });
+  }
+
+  // ====== Helper Functions ======
   function renumberRows(tbody) {
+    if (!tbody) return;
     const rows = tbody.rows;
     for (let i = 0; i < rows.length; i++) {
-      rows[i].cells[0].textContent = i + 1;
+      if (rows[i].cells[0]) {
+        rows[i].cells[0].textContent = i + 1;
+      }
     }
   }
 
-  const modal = document.getElementById("documentModal");
-  const closeBtn = document.querySelector(".close");
-  const saveBtn = document.getElementById("saveDocument");
-  const cancelBtn = document.getElementById("cancelDocument");
-
   function setupDocumentCellListeners() {
     const documentCells = document.querySelectorAll(".document-cell");
+    const modal = document.getElementById("documentModal");
+    
     documentCells.forEach((cell) => {
       cell.addEventListener("click", function () {
-        modal.style.display = "block";
-        modal.dataset.currentCell = this.cellIndex;
-        modal.dataset.currentRow = this.parentElement.rowIndex;
+        if (modal) {
+          modal.style.display = "block";
+          modal.dataset.currentCell = this.cellIndex;
+          modal.dataset.currentRow = this.parentElement.rowIndex;
+        }
       });
     });
   }
 
-  closeBtn.addEventListener("click", function () {
-    modal.style.display = "none";
-  });
+  // ====== Message Functions ======
+  window.showMessage = function() {
+    const messageElement = document.getElementById("message");
+    const overlayElement = document.getElementById("overlay");
+    
+    if (messageElement) messageElement.style.display = "block";
+    if (overlayElement) overlayElement.style.display = "block";
+    return false;
+  };
 
-  window.addEventListener("click", function (event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  });
+  window.hideMessage = function() {
+    const messageElement = document.getElementById("message");
+    const overlayElement = document.getElementById("overlay");
+    
+    if (messageElement) messageElement.style.display = "none";
+    if (overlayElement) overlayElement.style.display = "none";
+  };
 
-  if (saveBtn) {
-    saveBtn.addEventListener("click", function () {
-      const documentName = document.getElementById("document-name").value;
-      if (documentName) {
-        const currentRow = modal.dataset.currentRow;
-        const documentsTable = document.getElementById("documents-table");
-        if (currentRow && documentsTable.rows[currentRow]) {
-          // FIXED: Changed JSX syntax to template literal
-          documentsTable.rows[
-            currentRow
-          ].cells[1].innerHTML = `<span class="document-link">${documentName}</span>`;
-          setupDocumentCellListeners();
-        }
-      }
-      modal.style.display = "none";
-    });
-  }
+  // ====== Contract Functions ======
+  window.saveContract = function() {
+    alert("تم حفظ العقد بنجاح");
+    console.log("تم حفظ العقد");
+  };
 
-  if (cancelBtn) {
-    cancelBtn.addEventListener("click", function () {
-      modal.style.display = "none";
-    });
-  }
-
+  // Initial setup
   setupDocumentCellListeners();
-
-  const addPropertyBurdensBtn = document.querySelector(
-    "#property-burdens-content button:nth-child(2)"
-  );
-  if (addPropertyBurdensBtn) {
-    addPropertyBurdensBtn.addEventListener("click", function () {
-      const tbody = document.querySelector("#property-burdens-content tbody");
-      const rowCount = tbody.rows.length;
-      const newRow = tbody.insertRow();
-
-      for (let i = 0; i < 12; i++) {
-        const cell = newRow.insertCell();
-        if (i === 0) {
-          cell.textContent = rowCount + 1;
-        } else {
-          cell.textContent = "";
-        }
-      }
-    });
-  }
 });
 
 // Get the modal
@@ -167,22 +164,22 @@ var btn = document.getElementById("openModalBtn");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks the button, open the modal
-btn.onclick = function () {
-  modal.style.display = "block";
-};
+// Only add event listeners if elements exist
+if (btn && modal && span) {
+  btn.onclick = function () {
+    modal.style.display = "block";
+  };
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
-};
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-  if (event.target == modal) {
+  span.onclick = function () {
     modal.style.display = "none";
-  }
-};
+  };
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+}
 
 // Handle form submission
 document.getElementById("identityForm").onsubmit = function (e) {
@@ -190,38 +187,8 @@ document.getElementById("identityForm").onsubmit = function (e) {
   // Here you can add code to handle the form data
   alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
   modal.style.display = "none";
-};
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-/*function showSuccessMessage() {
-  // Empêcher tout comportement par défaut
-  event.preventDefault();
-  event.stopPropagation();
+}; 
 
-  document.getElementById("successOverlay").style.display = "flex";
-
-  // Empêcher le retour (return false)
-  return false;
-}
-
-function hideSuccessMessage() {
-  document.getElementById("successOverlay").style.display = "none";
-}
-
-// Fermer avec la touche Escape
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape") {
-    hideSuccessMessage();
-  }
-});
-
-// Fermer en cliquant sur l'overlay
-document
-  .getElementById("successOverlay")
-  .addEventListener("click", function (e) {
-    if (e.target === this) {
-      hideSuccessMessage();
-    }
-  });*/
 function showMessage() {
   document.getElementById("message").style.display = "block";
   document.getElementById("overlay").style.display = "block";
@@ -233,7 +200,11 @@ function hideMessage() {
   document.getElementById("overlay").style.display = "none";
 }
 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+function showMessage() {
+  alert("تم حفظ البيانات بنجاح في قاعدة البيانات");
+  return true; 
+}
+
 // Script pour ajouter une nouvelle ligne au tableau
 document.addEventListener("DOMContentLoaded", function () {
   const ajouterPieceBtn = document.getElementById("ajouter-piece");

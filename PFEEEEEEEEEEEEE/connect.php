@@ -216,11 +216,21 @@ class ClsConnect {
 
 
     function getAllDemandes() {
-        $sql = "SELECT * FROM T_demande";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $demandes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        return $demandes;
+        try {
+            // Requête simple pour récupérer toutes les données
+            $sql = 'SELECT * FROM "T_demande"';
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Debug
+            error_log("Nombre de résultats trouvés : " . count($result));
+            
+            return $result;
+        } catch(PDOException $e) {
+            error_log("Erreur dans getAllDemandes : " . $e->getMessage());
+            throw $e; // Remonter l'erreur pour la voir dans les logs
+        }
     }
     
 
@@ -429,7 +439,7 @@ class ClsConnect {
 
         /*public function getDemandeById($id_demande) {
             $sql = "SELECT * FROM public.\"T_demande\" WHERE id_demande = :id_demande";
-            $stmt = $this->pdo->prepare($sql);
+            $stmt = $this->conn->prepare($sql);
             $stmt->bindParam(':id_demande', $id_demande, PDO::PARAM_INT);
             $stmt->execute();
 
@@ -441,7 +451,7 @@ class ClsConnect {
         
 
         /*public function close() {
-            $this->pdo = null;
+            $this->conn = null;
         }*/
 
 

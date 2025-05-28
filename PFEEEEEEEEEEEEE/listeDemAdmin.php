@@ -2,23 +2,57 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-
 require_once 'connect.php';
+$connect = new ClsConnect();
+$pdo = $connect->getConnection();
+
+// Debug de la connexion
+try {
+    $test = $pdo->query('SELECT 1');
+    error_log("Connexion à la base de données réussie");
+} catch (PDOException $e) {
+    error_log("Erreur de connexion : " . $e->getMessage());
+}
+
+// Test de la table T_demande
+try {
+    $test = $pdo->query('SELECT COUNT(*) FROM "T_demande"');
+    $count = $test->fetchColumn();
+    error_log("Nombre de demandes dans la table : " . $count);
+} catch (PDOException $e) {
+    error_log("Erreur lors de l'accès à la table T_demande : " . $e->getMessage());
+}
 
 try {
-    $connect = new ClsConnect();           
-    $pdo = $connect->getConnection();        
+    // Récupération des demandes
+    $dem = $connect->getAllDemandes();
+    
+    // Debug - Afficher les données récupérées
+    echo "<!-- Debug: Nombre de demandes = " . count($dem) . " -->";
+    echo "<!-- Debug: Données = " . print_r($dem, true) . " -->";
+    
+} catch (Exception $e) {
+    echo "Erreur : " . $e->getMessage();
+    die();
+}
 
-    $sql = "SELECT * FROM T_demande";
-    $stmt = $pdo->prepare($sql);
-    //$stmt->execute(); 
-    $dem = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-    $dem = []; 
+// Fonction pour formater la date
+function formatDate($date) {
+    return date('Y-m-d', strtotime($date));
+}
+
+// Fonction pour traduire le type de demande
+function getTypeDemande($type) {
+    switch($type) {
+        case 1:
+            return "عقد بيع";
+        case 2:
+            return "عقد كراء";
+        default:
+            return "غير محدد";
+    }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -42,60 +76,24 @@ try {
         th {
             background-color: #eee;
         }
-        .actions a {
-            margin: 0 5px;
-            padding: 5px 10px;
-            border-radius: 3px;
-            text-decoration: none;
-            color: white;
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
-        .edit-btn {
-            background-color: #f39c12;
+        .status-pending {
+            color: #f39c12;
         }
-        .delete-btn {
-            background-color: #e74c3c;
+        .status-approved {
+            color: #27ae60;
         }
-        .edit-btn {
-        background-color: #ffc107;
-        border: none;
-        color: white;
-        padding: 5px 12px;
-        cursor: pointer;
-        border-radius: 5px;
-        }
-
-        .save-btn {
-        background-color: #28a745;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        margin-right: 10px;
-        border-radius: 5px;
-        }
-
-        .cancel-btn {
-        background-color: #6c757d;
-        color: white;
-        border: none;
-        padding: 6px 12px;
-        border-radius: 5px;
-        }
-
-        .edit-user-form {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        }
-        .edit-user-form .form-group {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 200px;
+        .status-rejected {
+            color: #e74c3c;
         }
     </style>
 </head>
 <body>
 <div class="container">
-
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>لوحة التحكم</h2>
@@ -108,52 +106,80 @@ try {
 
     <!-- Main Content -->
     <div class="main-content">
-
         <div class="header">
-            <h1> قائمة المطالب</h1>
+            <h1>قائمة المطالب</h1>
         </div>
-            <!-- Form -->
-            <div class="form-container">
-                <!-- Requests Management Section -->
-                <div id="requests-content" class="content-section">
-                    <h2>قائمة المطالب</h2>
-                    <label for="post">  : اختر حسب </label>
-                        <select>
-                            <option value="">-- --</option>
-                            <option type="date" value="date">التاريخ</option>
-                            <option value="type_demande">نوع الطلب</option>
-                            <option value="etat">حالة الطلب</option>
-                        </select>
-                    <table border="1" style="width: 100%; text-align: center;">
-                        <thead>
-                            <tr>
-                                <th>رقم الطلب</th>
-                                <th>تاريخ الطلب</th>
-                                <th>رقم الوصل</th>
-                                <th>نوع الطلب</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (!empty($dem)) { ?>
-                                <?php foreach ($dem as $dem) { ?>
-                                    <tr>
-                                    <td><?php echo htmlspecialchars($dem['id_demande']); ?></td>
-                                    <td><?php echo htmlspecialchars($dem['date_demande']); ?></td>
-                                    <td><?php echo htmlspecialchars($dem['num_recu']); ?></td>
-                                    <td><?php echo htmlspecialchars($dem['type_demande']); ?></td>
-                                    </tr>
-                                <?php } ?>
-                            <?php } else { ?>
-                                <tr>
-                                    <td colspan="4">لا توجد مطالب متاحة</td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>    
+        
+        <!-- Filtres -->
+        <div class="filters" style="margin: 20px;">
+            <label for="filter">قائمة المطالب  حسب:</label>
+            <select id="filter" onchange="filterDemandes(this.value)">
+                <option value="">الكل</option>
+                <option value="date">التاريخ</option>
+                <option value="type">نوع الطلب</option>
+                <option value="status">الحالة</option>
+            </select>
         </div>
-    </div>    
-    <script src="script/script.js"></script>
+
+        <!-- Table des demandes -->
+        <table>
+            <thead>
+                <tr>
+                    <th>رقم الطلب</th>
+                    <th>تاريخ الطلب</th>
+                    <th>رقم الوصل</th>
+                    <th>نوع الطلب</th>
+                    <th>الحالة</th>
+                    <th>العمليات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($dem)) : ?>
+                    <?php foreach ($dem as $demande) : ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($demande['id_demande'] ?? ''); ?></td>
+                            <td><?php echo isset($demande['date_demande']) ? date('Y-m-d', strtotime($demande['date_demande'])) : ''; ?></td>
+                            <td><?php echo htmlspecialchars($demande['num_recu'] ?? ''); ?></td>
+                            <td><?p($demande['type_demande'] ?? 0); ?></td>
+                            <td class="<?php 
+                                $etat = isset($demande['etat_demande']) ? (int)$demande['etat_demande'] : 0;
+                                echo 'status-' . ($etat == 1 ? 'approved' : ($etat == 2 ? 'rejected' : 'pending')); 
+                            ?>">
+                                <?php 
+                                    $etat = isset($demande['etat_demande']) ? (int)$demande['etat_demande'] : 0;
+                                    echo $etat == 1 ? 'مقبول' : 
+                                         ($etat == 2 ? 'مرفوض' : 'في الانتظار');
+                                ?>
+                            </td>
+                            <td>
+                                <a href="Traitement.php?id_demande=<?php echo $demande['id_demande']; ?>&num_recu=<?php echo $demande['num_recu']; ?>" 
+                                   class="edit-btn">معالجة</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <tr>
+                        <td colspan="6" class="no-data">لا توجد مطالب متاحة</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function filterDemandes(value) {
+    // Implémentez ici la logique de filtrage
+    console.log("Filtering by: " + value);
+}
+
+// Afficher un message si aucune donnée n'est trouvée
+window.onload = function() {
+    <?php if (empty($dem)) : ?>
+    console.log("Aucune demande trouvée dans la base de données");
+    <?php endif; ?>
+}
+</script>
+
 </body>
 </html>
