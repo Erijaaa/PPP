@@ -10,7 +10,7 @@ $pdo = $connect->getConnection();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تأكيد العقد </title>
+    <title>تأكيد العقد</title>
     <style>
         * {
             margin: 0;
@@ -160,34 +160,113 @@ $pdo = $connect->getConnection();
                 transform: translateY(0);
             }
         }
+
+        /* Styles pour le modal */
+        .modal-overlay {
+            display: none; /* Caché par défaut */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-width: 400px;
+            max-width: 500px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .textarea-group textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            resize: none;
+            font-size: 1rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 18px 30px;
+            margin: 20px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(250, 112, 154, 0.4);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title"> تأكيد العقد</h1>
-        <a href="consultation.php" class="button button-1"> حفظ العقد </a>
+        <h1 class="title">تأكيد العقد</h1>
+        <a href="consultation.php" class="button button-1">حفظ العقد</a>
         <a href="#" class="button button-2" onclick="openModal()">نص الاعتراض</a>
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal">
                 <button class="close-btn" title="إغلاق" onclick="closeModal()">×</button>
                 <div class="modal-header">نص الاعتراض</div>
-                <div class="modal-label-section">اكتب نص الرفض:</div>
                 <div class="modal-body">
                     <div class="textarea-group">
                         <textarea id="objectionText" placeholder="اكتب نص الاعتراض هنا..."></textarea>
                     </div>
                 </div>
-                <div class="modal-buttons">
-                    <button class="btn btn-primary" onclick="submitObjection()">ارسال النص</button>
-                    <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
-                </div>
+                <button class="btn-primary" onclick="submitObjection()">ارسال النص</button>
             </div>
         </div>
     </div>
+
     <script>
-        document.querySelectorAll('.button').forEach(button => {
+        // Effet ripple sur les boutons
+        document.querySelectorAll('.button, .btn-primary').forEach(button => {
             button.addEventListener('click', function(e) {
-                // Créer un effet de ripple
                 const ripple = document.createElement('span');
                 const rect = this.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
@@ -211,6 +290,7 @@ $pdo = $connect->getConnection();
                 }, 600);
             });
         });
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes ripple {
@@ -221,24 +301,27 @@ $pdo = $connect->getConnection();
             }
         `;
         document.head.appendChild(style);
+
+        // Ouvrir le modal
         function openModal() {
             document.getElementById('modalOverlay').style.display = 'flex';
         }
 
-        // Fonction pour fermer le modal
+        // Fermer le modal
         function closeModal() {
             document.getElementById('modalOverlay').style.display = 'none';
-            document.getElementById('objectionText').value = ''; // Réinitialiser le textarea
+            document.getElementById('objectionText').value = '';
         }
 
+        // Soumettre le texte
         function submitObjection() {
             const objectionText = document.getElementById('objectionText').value;
             if (objectionText.trim() === '') {
                 alert('يرجى كتابة نص الاعتراض قبل الإرسال.');
                 return;
-            } 
+            }
             console.log('Texte envoyé :', objectionText);
-            closeModal(); 
+            closeModal();
         }
     </script>
 </body>

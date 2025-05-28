@@ -222,15 +222,15 @@ document
       hideSuccessMessage();
     }
   });*/
-  function showMessage() {
-    document.getElementById('message').style.display = 'block';
-    document.getElementById('overlay').style.display = 'block';
-    return false; // Important !
+function showMessage() {
+  document.getElementById("message").style.display = "block";
+  document.getElementById("overlay").style.display = "block";
+  return false; // Important !
 }
 
 function hideMessage() {
-    document.getElementById('message').style.display = 'none';
-    document.getElementById('overlay').style.display = 'none';
+  document.getElementById("message").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
 }
 
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -569,4 +569,23 @@ function showEditForm(button, userData) {
 function hideEditForm(button) {
   const row = button.closest("tr");
   row.style.display = "none";
+}
+///////////////TEXT REFUS
+function submitObjection() {
+  const objectionText = document.getElementById("objectionText").value;
+  if (objectionText.trim() === "") {
+    alert("يرجى كتابة نص الاعتراض قبل الإرسال.");
+    return;
+  }
+  fetch("listeContrats.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ objection: objectionText }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Réponse du serveur :", data);
+      closeModal();
+    })
+    .catch((error) => console.error("Erreur :", error));
 }
