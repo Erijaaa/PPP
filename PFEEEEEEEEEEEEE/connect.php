@@ -395,6 +395,23 @@ class ClsConnect {
     
 
 
+    public function getContratsForValideur() {
+        try {
+            $sql = "SELECT c.id_contrat, c.date_contrat, c.id_demande, 
+                           d.num_recu, d.date_demande
+                    FROM public.contrat c
+                    INNER JOIN public.\"T_demande\" d ON c.id_demande = d.id_demande
+                    WHERE d.etat_demande = 1 AND c.etat_contrat = 0
+                    ORDER BY d.date_demande DESC";
+                    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Erreur dans getContratsForValideur : " . $e->getMessage());
+            return [];
+        }
+    }
 }
 
 
