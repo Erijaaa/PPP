@@ -1,3 +1,73 @@
+document.addEventListener('DOMContentLoaded', function() {
+  // Récupérer tous les éléments du menu
+  const menuItems = document.querySelectorAll('.menu-item');
+  const contents = document.querySelectorAll('.main-content');
+
+  // Ajouter un écouteur d'événements à chaque élément du menu
+  menuItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Retirer la classe active de tous les éléments
+      menuItems.forEach(i => i.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+
+      // Ajouter la classe active à l'élément cliqué
+      this.classList.add('active');
+
+      // Afficher le contenu correspondant
+      const contentId = this.id + '-content';
+      document.getElementById(contentId).classList.add('active');
+    });
+  });
+
+  // Gestion des boutons d'ajout de ligne dans les tableaux
+  const addDocumentBtns = document.querySelectorAll('.btn-add');
+  addDocumentBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const table = this.previousElementSibling.previousElementSibling;
+      const tbody = table.querySelector('tbody');
+      const lastRow = tbody.lastElementChild;
+      const newRow = lastRow.cloneNode(true);
+      
+      // Réinitialiser les valeurs des inputs dans la nouvelle ligne
+      const inputs = newRow.querySelectorAll('input');
+      inputs.forEach(input => input.value = '');
+      
+      // Mettre à jour le numéro d'ordre si nécessaire
+      const firstCell = newRow.firstElementChild;
+      if (firstCell && !isNaN(firstCell.textContent)) {
+        firstCell.textContent = parseInt(lastRow.firstElementChild.textContent) + 1;
+      }
+      
+      tbody.appendChild(newRow);
+    });
+  });
+
+  // Gestion des boutons de suppression
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-delete')) {
+      const row = e.target.closest('tr');
+      const tbody = row.parentElement;
+      if (tbody.children.length > 1) {
+        row.remove();
+        // Mettre à jour les numéros d'ordre
+        const rows = tbody.children;
+        for (let i = 0; i < rows.length; i++) {
+          const firstCell = rows[i].firstElementChild;
+          if (firstCell && !isNaN(firstCell.textContent)) {
+            firstCell.textContent = i + 1;
+          }
+        }
+      }
+    }
+  });
+});
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
   // ====== Menu Navigation ======
   const menuItems = document.querySelectorAll(".menu-item");
