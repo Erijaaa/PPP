@@ -412,6 +412,200 @@ class ClsConnect {
             return [];
         }
     }
+
+    // Méthodes pour les demandes
+    public function getDemandesByType($type, $id_redacteur = null) {
+        $sql = "SELECT * FROM demandes WHERE type_demande = :type";
+        if ($id_redacteur) {
+            $sql .= " AND id_redacteur = :id_redacteur";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':type', $type);
+        if ($id_redacteur) {
+            $stmt->bindParam(':id_redacteur', $id_redacteur);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateDemandeStatus($id, $status) {
+        $stmt = $this->pdo->prepare("UPDATE demandes SET etat_demande = :status WHERE id_demande = :id");
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    // Méthodes pour les contrats
+    public function createContrat($data) {
+        $stmt = $this->pdo->prepare("INSERT INTO contrats (id_demande, date_creation, id_redacteur) VALUES (:id_demande, :date_creation, :id_redacteur)");
+        return $stmt->execute($data);
+    }
+
+    public function getContratsByStatus($status, $id_redacteur = null) {
+        $sql = "SELECT c.*, d.num_recu FROM contrats c 
+                JOIN demandes d ON c.id_demande = d.id_demande 
+                WHERE c.etat_contrat = :status";
+        if ($id_redacteur) {
+            $sql .= " AND c.id_redacteur = :id_redacteur";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':status', $status);
+        if ($id_redacteur) {
+            $stmt->bindParam(':id_redacteur', $id_redacteur);
+        }
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateContratStatus($id, $status, $motif = null) {
+        $sql = "UPDATE contrats SET etat_contrat = :status";
+        if ($motif) {
+            $sql .= ", motif_rejet = :motif";
+        }
+        $sql .= " WHERE id_contrat = :id";
+        
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $id);
+        if ($motif) {
+            $stmt->bindParam(':motif', $motif);
+        }
+        return $stmt->execute();
+    }
+
+    // Méthodes pour les parties du contrat
+    public function savePartieContrat($data) {
+        $stmt = $this->pdo->prepare("INSERT INTO parties_contrat 
+            (id_contrat, nom, prenom, cin, date_naissance, lieu_naissance, adresse, type_partie) 
+            VALUES (:id_contrat, :nom, :prenom, :cin, :date_naissance, :lieu_naissance, :adresse, :type_partie)");
+        return $stmt->execute($data);
+    }
+
+    // Méthodes pour les détails du contrat
+    public function saveDetailsContrat($data) {
+        $stmt = $this->pdo->prepare("INSERT INTO details_contrat 
+            (id_contrat, montant, surface, adresse_bien, description_bien, num_titre_foncier) 
+            VALUES (:id_contrat, :montant, :surface, :adresse_bien, :description_bien, :num_titre_foncier)");
+        return $stmt->execute($data);
+    }
+
+    // Méthodes pour les documents
+    public function saveDocument($data) {
+        $stmt = $this->pdo->prepare("INSERT INTO documents 
+            (id_contrat, type_document, reference, date_document) 
+            VALUES (:id_contrat, :type_document, :reference, :date_document)");
+        return $stmt->execute($data);
+    }
+
+    public function getContratComplet($id_contrat) {
+        $contrat = [];
+        
+        // Récupérer les informations de base du contrat
+        $stmt = $this->pdo->prepare("SELECT c.*, d.num_recu, d.date_demande 
+            FROM contrats c 
+            JOIN demandes d ON c.id_demande = d.id_demande 
+            WHERE c.id_contrat = :id");
+        $stmt->bindParam(':id', $id_contrat);
+        $stmt->execute();
+        $contrat['base'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Récupérer les parties du contrat
+        $stmt = $this->pdo->prepare("SELECT * FROM parties_contrat WHERE id_contrat = :id");
+        $stmt->bindParam(':id', $id_contrat);
+        $stmt->execute();
+        $contrat['parties'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Récupérer les détails du contrat
+        $stmt = $this->pdo->prepare("SELECT * FROM details_contrat WHERE id_contrat = :id");
+        $stmt->bindParam(':id', $id_contrat);
+        $stmt->execute();
+        $contrat['details'] = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Récupérer les documents
+        $stmt = $this->pdo->prepare("SELECT * FROM documents WHERE id_contrat = :id");
+        $stmt->bindParam(':id', $id_contrat);
+        $stmt->execute();
+        $contrat['documents'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $contrat;
+    }
+
+    // Méthodes pour les contrats dans PostgreSQL
+    public function saveContratPG($id_demande) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO contrat (id_demande, date_creation, etat_contrat) 
+                                        VALUES (:id_demande, CURRENT_DATE, 0) 
+                                        RETURNING id_contrat");
+            $stmt->execute([':id_demande' => $id_demande]);
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log("Erreur saveContrat: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function saveDocumentPG($id_contrat, $type, $reference, $date) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO documents (id_contrat, type_document, reference, date_document) 
+                                        VALUES (:id_contrat, :type, :reference, :date)");
+            return $stmt->execute([
+                ':id_contrat' => $id_contrat,
+                ':type' => $type,
+                ':reference' => $reference,
+                ':date' => $date
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erreur saveDocument: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function savePartieContratPG($id_contrat, $data) {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO parties_contrat 
+                (id_contrat, nom, prenom, cin, date_naissance, lieu_naissance, adresse, type_partie) 
+                VALUES (:id_contrat, :nom, :prenom, :cin, :date_naissance, :lieu_naissance, :adresse, :type_partie)");
+            
+            return $stmt->execute([
+                ':id_contrat' => $id_contrat,
+                ':nom' => $data['nom'],
+                ':prenom' => $data['prenom'],
+                ':cin' => $data['cin'],
+                ':date_naissance' => $data['date_naissance'],
+                ':lieu_naissance' => $data['lieu_naissance'],
+                ':adresse' => $data['adresse'],
+                ':type_partie' => $data['type']
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erreur savePartieContrat: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function updateDemandeStatusPG($id_demande, $status) {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE demandes SET etat_demande = :status WHERE id_demande = :id");
+            return $stmt->execute([
+                ':status' => $status,
+                ':id' => $id_demande
+            ]);
+        } catch (PDOException $e) {
+            error_log("Erreur updateDemandeStatus: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function beginTransaction() {
+        return $this->pdo->beginTransaction();
+    }
+
+    public function commit() {
+        return $this->pdo->commit();
+    }
+
+    public function rollBack() {
+        return $this->pdo->rollBack();
+    }
 }
 
 
