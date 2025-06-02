@@ -66,8 +66,8 @@
           width: 150px;
           margin: 10px auto;
         "
-      >
-        وعد بيع
+      > 
+      <span>*******</span>
       </div>
       <div style=" margin: 5px 0">موضوع العقد</div>
 

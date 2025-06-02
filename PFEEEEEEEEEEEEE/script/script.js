@@ -1,51 +1,91 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
+  // Fonction pour ajouter une ligne
+  function addRow(table) {
+    const tbody = table.querySelector("tbody");
+    const firstRow = tbody.querySelector("tr");
+    const newRow = firstRow.cloneNode(true);
+
+    // Réinitialiser les valeurs des inputs dans la nouvelle ligne
+    newRow.querySelectorAll("input").forEach((input) => {
+      input.value = "";
+    });
+
+    tbody.appendChild(newRow);
+  }
+
+  // Fonction pour supprimer une ligne
+  function deleteRow(table) {
+    const tbody = table.querySelector("tbody");
+    if (tbody.children.length > 1) {
+      tbody.removeChild(tbody.lastElementChild);
+    }
+  }
+
+  // Ajouter les gestionnaires d'événements pour chaque bouton d'ajout
+  document.querySelectorAll(".btn-add").forEach((button) => {
+    button.addEventListener("click", function () {
+      const table = this.previousElementSibling.previousElementSibling;
+      addRow(table);
+    });
+  });
+
+  // Ajouter les gestionnaires d'événements pour chaque bouton de suppression
+  document.querySelectorAll(".btn-delete").forEach((button) => {
+    button.addEventListener("click", function () {
+      const table = this.previousElementSibling;
+      deleteRow(table);
+    });
+  });
+});
+document.addEventListener("DOMContentLoaded", function () {
   // Récupérer tous les éléments du menu
-  const menuItems = document.querySelectorAll('.menu-item');
-  const contents = document.querySelectorAll('.main-content');
+  const menuItems = document.querySelectorAll(".menu-item");
+  const contents = document.querySelectorAll(".main-content");
 
   // Ajouter un écouteur d'événements à chaque élément du menu
-  menuItems.forEach(item => {
-    item.addEventListener('click', function() {
+  menuItems.forEach((item) => {
+    item.addEventListener("click", function () {
       // Retirer la classe active de tous les éléments
-      menuItems.forEach(i => i.classList.remove('active'));
-      contents.forEach(c => c.classList.remove('active'));
+      menuItems.forEach((i) => i.classList.remove("active"));
+      contents.forEach((c) => c.classList.remove("active"));
 
       // Ajouter la classe active à l'élément cliqué
-      this.classList.add('active');
+      this.classList.add("active");
 
       // Afficher le contenu correspondant
-      const contentId = this.id + '-content';
-      document.getElementById(contentId).classList.add('active');
+      const contentId = this.id + "-content";
+      document.getElementById(contentId).classList.add("active");
     });
   });
 
   // Gestion des boutons d'ajout de ligne dans les tableaux
-  const addDocumentBtns = document.querySelectorAll('.btn-add');
-  addDocumentBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
+  const addDocumentBtns = document.querySelectorAll(".btn-add");
+  addDocumentBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
       const table = this.previousElementSibling.previousElementSibling;
-      const tbody = table.querySelector('tbody');
+      const tbody = table.querySelector("tbody");
       const lastRow = tbody.lastElementChild;
       const newRow = lastRow.cloneNode(true);
-      
+
       // Réinitialiser les valeurs des inputs dans la nouvelle ligne
-      const inputs = newRow.querySelectorAll('input');
-      inputs.forEach(input => input.value = '');
-      
+      const inputs = newRow.querySelectorAll("input");
+      inputs.forEach((input) => (input.value = ""));
+
       // Mettre à jour le numéro d'ordre si nécessaire
       const firstCell = newRow.firstElementChild;
       if (firstCell && !isNaN(firstCell.textContent)) {
-        firstCell.textContent = parseInt(lastRow.firstElementChild.textContent) + 1;
+        firstCell.textContent =
+          parseInt(lastRow.firstElementChild.textContent) + 1;
       }
-      
+
       tbody.appendChild(newRow);
     });
   });
 
   // Gestion des boutons de suppression
-  document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('btn-delete')) {
-      const row = e.target.closest('tr');
+  document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("btn-delete")) {
+      const row = e.target.closest("tr");
       const tbody = row.parentElement;
       if (tbody.children.length > 1) {
         row.remove();
@@ -61,12 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
-
-
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
   // ====== Menu Navigation ======
@@ -145,15 +179,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Modal open/close handlers
   if (myModal && openModalBtn && closeModalBtns.length > 0) {
-    openModalBtn.addEventListener("click", function() {
+    openModalBtn.addEventListener("click", function () {
       myModal.style.display = "block";
     });
 
-    closeModalBtns[0].addEventListener("click", function() {
+    closeModalBtns[0].addEventListener("click", function () {
       myModal.style.display = "none";
     });
 
-    window.addEventListener("click", function(event) {
+    window.addEventListener("click", function (event) {
       if (event.target === myModal) {
         myModal.style.display = "none";
       }
@@ -162,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Identity form handler
   if (identityForm) {
-    identityForm.addEventListener("submit", function(e) {
+    identityForm.addEventListener("submit", function (e) {
       e.preventDefault();
       alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
       if (myModal) {
@@ -185,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function setupDocumentCellListeners() {
     const documentCells = document.querySelectorAll(".document-cell");
     const modal = document.getElementById("documentModal");
-    
+
     documentCells.forEach((cell) => {
       cell.addEventListener("click", function () {
         if (modal) {
@@ -198,25 +232,25 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ====== Message Functions ======
-  window.showMessage = function() {
+  window.showMessage = function () {
     const messageElement = document.getElementById("message");
     const overlayElement = document.getElementById("overlay");
-    
+
     if (messageElement) messageElement.style.display = "block";
     if (overlayElement) overlayElement.style.display = "block";
     return false;
   };
 
-  window.hideMessage = function() {
+  window.hideMessage = function () {
     const messageElement = document.getElementById("message");
     const overlayElement = document.getElementById("overlay");
-    
+
     if (messageElement) messageElement.style.display = "none";
     if (overlayElement) overlayElement.style.display = "none";
   };
 
   // ====== Contract Functions ======
-  window.saveContract = function() {
+  window.saveContract = function () {
     alert("تم حفظ العقد بنجاح");
     console.log("تم حفظ العقد");
   };
@@ -257,7 +291,7 @@ document.getElementById("identityForm").onsubmit = function (e) {
   // Here you can add code to handle the form data
   alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
   modal.style.display = "none";
-}; 
+};
 
 function showMessage() {
   document.getElementById("message").style.display = "block";
@@ -272,7 +306,7 @@ function hideMessage() {
 
 function showMessage() {
   alert("تم حفظ البيانات بنجاح في قاعدة البيانات");
-  return true; 
+  return true;
 }
 
 // Script pour ajouter une nouvelle ligne au tableau

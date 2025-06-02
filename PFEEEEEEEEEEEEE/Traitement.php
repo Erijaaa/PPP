@@ -857,8 +857,13 @@ $sujetContrat = $db->getSubject($id_demande);
                   </tr>
                 </tbody>
               </table>
+              <form method="post" action="verifierContrat.php" id="contractForm">
+              <input type="hidden" name="id_demande" value="<?php echo htmlspecialchars($id_demande); ?>">
+              <input type="hidden" name="num_contrat" value="<?php echo htmlspecialchars($id_contrat); ?>">
               <div style="text-align: center; margin-top: 20px;">
-                <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">حفظ العقد</button>
+                <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                حفظ البيانات
+                </button>
               </div>
             </div>
           </div>
@@ -867,46 +872,5 @@ $sujetContrat = $db->getSubject($id_demande);
       </div>
 </div>
 <script src="script/script.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Fonction pour ajouter une ligne
-    function addRow(table) {
-        const tbody = table.querySelector('tbody');
-        const firstRow = tbody.querySelector('tr');
-        const newRow = firstRow.cloneNode(true);
-        
-        // Réinitialiser les valeurs des inputs dans la nouvelle ligne
-        newRow.querySelectorAll('input').forEach(input => {
-            input.value = '';
-        });
-        
-        tbody.appendChild(newRow);
-    }
-
-    // Fonction pour supprimer une ligne
-    function deleteRow(table) {
-        const tbody = table.querySelector('tbody');
-        if (tbody.children.length > 1) {
-            tbody.removeChild(tbody.lastElementChild);
-        }
-    }
-
-    // Ajouter les gestionnaires d'événements pour chaque bouton d'ajout
-    document.querySelectorAll('.btn-add').forEach(button => {
-        button.addEventListener('click', function() {
-            const table = this.previousElementSibling.previousElementSibling;
-            addRow(table);
-        });
-    });
-
-    // Ajouter les gestionnaires d'événements pour chaque bouton de suppression
-    document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', function() {
-            const table = this.previousElementSibling;
-            deleteRow(table);
-        });
-    });
-});
-</script>
 </body>
 </html>
