@@ -210,31 +210,6 @@ $sujetContrat = $db->getSubject($id_demande);
                   </tbody>
               </table>
             </div>
-
-              
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <!-- Contract Parties Section -->
       <div id="contract-parties-content" class="main-content">
         <div class="top-bar">
@@ -543,17 +518,8 @@ $sujetContrat = $db->getSubject($id_demande);
           </div>
       </div>
 
-
-
-
-
-
-
-
-
-      
-          <!-- Contract Subject Section -->
-          <div id="contract-subject" class="main-content">
+      <!-- Contract Subject Section -->
+      <div id="contract-subject-content" class="main-content">
             <div class="top-bar">
             <div class="search-form">
             <span>عدد مطلب التحرير</span>
@@ -631,21 +597,20 @@ $sujetContrat = $db->getSubject($id_demande);
               </div>
             </div>
       </div>
+    
       <!-- Property Burdens Section -->
       <div id="property-burdens-content" class="main-content">
             <div class="top-bar">
               <div class="search-form">
-              <span>عدد مطلب التحرير</span>
-                <input type="text" class="search-input" name="id_demande" 
-                value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
+                <span>عدد مطلب التحرير</span>
+                <input type="text" class="search-input" name="id_demande" value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
                 <span>/</span>
-                <input type="text" class="search-input" name="annee_demande" 
-                value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
+                <input type="text" class="search-input" name="annee_demande" value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
                 <span>تاريخه</span>
-                <input type="text" class="search-input" name="date_demande" 
-                value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
+                <input type="text" class="search-input" name="date_demande" value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
                 <span>عدد العقد</span>
-                <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          </div>
+                <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />
+              </div>
               <img src="media/logo.png" alt="ONPFF" class="logo" />
             </div>
 
@@ -731,57 +696,20 @@ $sujetContrat = $db->getSubject($id_demande);
             </table>         
         </div>
       </div>
-             
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <!-- Contract Terms Section -->
       <div id="contract-terms-content" class="main-content">
         <div class="top-bar">
           <div class="search-form">
-          <span>عدد مطلب التحرير</span>
-            <input type="text" class="search-input" name="id_demande" 
-            value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
+            <span>عدد مطلب التحرير</span>
+            <input type="text" class="search-input" name="id_demande" value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
             <span>/</span>
-            <input type="text" class="search-input" name="annee_demande" 
-            value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
+            <input type="text" class="search-input" name="annee_demande" value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
             <span>تاريخه</span>
-            <input type="text" class="search-input" name="date_demande" 
-            value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
+            <input type="text" class="search-input" name="date_demande" value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
             <span>عدد العقد</span>
-            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          </div>
+            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />
+          </div>
           <img src="media/logo.png" alt="ONPFF" class="logo" />
         </div>
 
@@ -794,26 +722,19 @@ $sujetContrat = $db->getSubject($id_demande);
         ></textarea>
       </div>
 
-
-
-
-
-
       <!-- Extraction Section -->
       <div id="extraction-content" class="main-content">
         <div class="top-bar">
           <div class="search-form">
-          <span>عدد مطلب التحرير</span>
-            <input type="text" class="search-input" name="id_demande" 
-            value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
+            <span>عدد مطلب التحرير</span>
+            <input type="text" class="search-input" name="id_demande" value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
             <span>/</span>
-            <input type="text" class="search-input" name="annee_demande" 
-            value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
+            <input type="text" class="search-input" name="annee_demande" value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
             <span>تاريخه</span>
-            <input type="text" class="search-input" name="date_demande" 
-            value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
+            <input type="text" class="search-input" name="date_demande" value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
             <span>عدد العقد</span>
-            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          </div>
+            <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />
+          </div>
           <img src="media/logo.png" alt="ONPFF" class="logo" />
         </div>
         <div class="section-title">القسم السابع : امضاءات الأطراف و التعريف بها</div>
@@ -878,13 +799,13 @@ $sujetContrat = $db->getSubject($id_demande);
               <button class="btn-delete">حذف</button>
               <button id="add-document" class="btn-add">إضافة سطر</button>
 
-              <h3>البيانات المتعلقةبتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
+              <h3>البيانات المتعلقة بتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
               <table class="documents-table">
                 <thead>
                   <tr>
                     <th> القيمة بالدينار</th>
                     <th>  النسبة</th>
-                    <th> المبلغ المبلغ بالدينار</th>
+                    <th>  المبلغ بالدينار</th>
                     <th>ختم قابض التسجيل و امضاؤه</th>
 
                   </tr>
@@ -898,151 +819,94 @@ $sujetContrat = $db->getSubject($id_demande);
                   </tr>
                 </tbody>
               </table>
+              <h3>البيانات المتعلقة بتصفية معاليم الخدمات الراجعة لادارة الملكية العقارية</h3>
+              <table class="documents-table">
+                <thead>
+                  <tr>
+                    <th>  التسمية</th>
+                    <th>  القيمة بالدينار</th>
+                    <th> النسبة</th>
+                    <th>  القيمة بالدينار</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                    <td><input type="text" /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">حفظ العقد</button>
+              </div>
             </div>
           </div>
-        <div style="text-align: center; margin-top: 20px;">
-          <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">حفظ العقد</button>
+          
         </div>
       </div>
-
-    <!-- Document Modal -->
-    <div id="documentModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="form-container">
-          <div class="section">
-            <h3 class="section-title">الوثيقة و مراجعها</h3>
-            <div class="row">
-              <div class="col">
-                <label>تسميتها</label>
-                <div class="input-container">
-                  <input type="text" id="document-name" />
-                  <span class="checkmark"></span>
-                </div>
-                <label>تاريخها</label>
-                <input type="text" id="document-date" />
-              </div>
-              <div class="col">
-                <label>المراجع</label>
-                <input type="text" id="document-reference" />
-                <label>تاريخها</label>
-                <input type="text" id="reference-date" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="col">
-                <label>الولاية</label>
-                <div class="input-container">
-                  <input type="text" id="document-state" />
-                  <span class="checkmark"></span>
-                </div>
-              </div>
-              <div class="col">
-                <label>القباضة</label>
-                <div class="input-container">
-                  <input type="text" id="document-office" />
-                  <span class="checkmark"></span>
-                </div>
-              </div>
-              <div class="col-small">
-                <label>عدد الصفحات</label>
-                <input type="text" id="document-pages" />
-              </div>
-            </div>
-          </div>
-
-          <div class="section">
-            <h3 class="section-title">الجهة المصدرة أو المحررة</h3>
-            <div class="checkbox-group">
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer" value="court" /> محكمة
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer" value="lawyer" /> محامي
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer" value="notary" /> عدل إشهاد
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer" value="other" /> جهة أخرى
-              </label>
-            </div>
-            <div class="checkbox-group">
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer" value="property-manager" />
-                محرر العقود بإدارة الملكية العقارية
-              </label>
-            </div>
-
-            <div class="checkbox-group">
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer-type" value="ministry" />
-                وزارة
-              </label>
-              <label class="checkbox-item">
-                <input type="checkbox" name="issuer-type" value="state" /> ولاية
-              </label>
-              <label class="checkbox-item">
-                <input
-                  type="checkbox"
-                  name="issuer-type"
-                  value="municipality"
-                />
-                بلدية
-              </label>
-              <label class="checkbox-item">
-                <input
-                  type="checkbox"
-                  name="issuer-type"
-                  value="other-entity"
-                />
-                هيكل آخر
-              </label>
-            </div>
-          </div>
-
-          <div class="section">
-            <div class="property-section">
-              <div class="property-left">
-                <h3 class="section-title">الرسم العقاري</h3>
-                <label>العدد</label>
-                <input type="text" id="property-number" style="width: 90%" />
-                <label>الولاية</label>
-                <input type="text" id="property-state" style="width: 90%" />
-                <label>الرمز المكمل</label>
-                <div class="input-container" style="width: 90%">
-                  <input type="text" id="property-code" />
-                  <span class="checkmark"></span>
-                </div>
-              </div>
-              <div class="property-right">
-                <label>&nbsp;</label>
-                <label>الولاية</label>
-                <div class="input-container">
-                  <input type="text" id="property-state-2" />
-                  <span class="checkmark"></span>
-                </div>
-                <label>التسمية</label>
-                <div class="input-container">
-                  <input type="text" id="property-name" />
-                  <span class="checkmark"></span>
-                </div>
-                <label>ملاحظات</label>
-                <textarea class="notes-field" id="property-notes"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="buttons">
-            <button class="btn btn-save" id="saveDocument">حفظ</button>
-            <button class="btn btn-cancel" id="cancelDocument">إلغاء</button>
-          </div>
-        </div>
-      </div>
-    </div>
 </div>
 <script src="script/script.js"></script>
-</body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour ajouter une ligne
+    function addRow(table) {
+        const tbody = table.querySelector('tbody');
+        const firstRow = tbody.querySelector('tr');
+        const newRow = firstRow.cloneNode(true);
+        
+        // Réinitialiser les valeurs des inputs dans la nouvelle ligne
+        newRow.querySelectorAll('input').forEach(input => {
+            input.value = '';
+        });
+        
+        tbody.appendChild(newRow);
+    }
 
+    // Fonction pour supprimer une ligne
+    function deleteRow(table) {
+        const tbody = table.querySelector('tbody');
+        if (tbody.children.length > 1) {
+            tbody.removeChild(tbody.lastElementChild);
+        }
+    }
+
+    // Ajouter les gestionnaires d'événements pour chaque bouton d'ajout
+    document.querySelectorAll('.btn-add').forEach(button => {
+        button.addEventListener('click', function() {
+            const table = this.previousElementSibling.previousElementSibling;
+            addRow(table);
+        });
+    });
+
+    // Ajouter les gestionnaires d'événements pour chaque bouton de suppression
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function() {
+            const table = this.previousElementSibling;
+            deleteRow(table);
+        });
+    });
+});
+</script>
+</body>
 </html>
