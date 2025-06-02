@@ -1,9 +1,9 @@
 <?php
-
-
-
+require_once 'dompdf/autoload.inc.php';
+use Dompdf\Dompdf;
+$dompdf = new Dompdf();
+ob_start();
 ?>
-
 
 
 
@@ -18,7 +18,7 @@
   <body>
     <div class="document">
       <div class="header">
-        <div style="text-align: right">تاريخ التحرير : 2020/11/13</div>
+        <div style="text-align: right">تاريخ التحرير : *******</div>
         <div style="text-align: center">
           <strong>الجمهورية التونسية</strong><br />
           وزارة أملاك الدولة والشؤون العقارية<br />
@@ -66,8 +66,7 @@
           width: 150px;
           margin: 10px auto;
         "
-      > 
-      <span>*******</span>
+      >
       </div>
       <div style=" margin: 5px 0">موضوع العقد</div>
 
@@ -101,7 +100,7 @@
             <td>******</td>
           </tr>
           <tr>
-            <td>مهنة :</td>
+            <td>المهنة :</td>
             <td>*******</td>
           </tr>
           <tr>
@@ -118,23 +117,21 @@
 
       <div class="section">
         <div class="section-title">
-          القسم الثالث : البيانات المتعلقة بالعقارات
+          القسم الثالث : البيانات المتعلقة بالمؤيدات
         </div>
         <table>
           <thead>
             <tr>
-              <th>عدد</th>
-              <th>عدد الرسم العقاري</th>
-              <th>الولاية</th>
-              <th>تاريخ المسجل</th>
-              <th>رقم التسجيل</th>
+              <th>ع ر</th>
+              <th>الوثيقة</th>
               <th>تاريخها</th>
-              <th>عدد العقود</th>
+              <th>مراجع التسجيل </th>
+              <th>تاريخها</th>
+              <th> نوع الوثيقة</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -165,7 +162,9 @@
         
         <!-- Premier contrat -->
         <div class="contract-box">
-            <div class="contract-header">1: العدد الرقمي المتعاقد</div>
+            <div class="contract-header"> 1 المتعاقد
+    
+            </div>
             <div class="contract-content">
                 
                 <div class="info-group">
@@ -252,7 +251,7 @@
                 <div class="signature-box">
                     <div class="signature-text">
                         <div class="bold">النظام المالي للزواج حسب الحالة المدنية :</div>
-                        <div>الاشتراك في الاملاك بين الزوجين</div>
+                        <div>************</div>
                     </div>
                 </div>
 
@@ -328,7 +327,8 @@
 
         <!-- Deuxième contrat -->
         <div class="contract-box">
-            <div class="contract-header">2: العدد الرقمي المتعاقد</div>
+        <div class="contract-header"> 2 المتعاقد
+        </div>
             <div class="contract-content">
                 
                 <div class="info-group">
@@ -429,7 +429,7 @@
                             </div>
                             <div class="info-line">
                                 <span class="label">اللقب :</span>
-                                <span>*******</span>
+                                <span>*******</span> 
                             </div>
                         </div>
                     </div>
@@ -467,62 +467,80 @@
                 <td></td>
             </tr>
         </table>
-        <div class="section-title">            بيانات تتعلق انجرار الترسيم </div>
-        <table class="data-table">
-            <tr>
-                <th>التاريخ</th>
-                <th>الإيداع</th>
-                <th> المجلد</th>
-                <th>العدد</th>
-                <th>ع.الفرعي</th>
+        <div class="header">            بيانات تتعلق انجرار الترسيم 
+            <table class="data-table">
+                <tr>
+                    <th>التاريخ</th>
+                    <th>الإيداع</th>
+                    <th> المجلد</th>
+                    <th>العدد</th>
+                    <th>ع.الفرعي</th>
 
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-                <div class="section-title"> البيانات الاخرى المتعلقة بالحق</div>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+        
+            <div class="header">  البيانات الاخرى المتعلقة بالحق
 
                 <table class="data-table">
-                <th>النظام المالي للزواج</th>
-                <th>ملاحظات اخرى</th>
-                <span>*******</span>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
+                    <th>النظام المالي للزواج</th>
+                    <th>ملاحظات اخرى</th>
+    
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
 
-            </tr>
-        </table>
-
-
-        <div class="section-title">المبلغ الجملي لموضوع التعاقد</div>
-
-        <div class="amount-section">
-            <div class="amount-row">
-                <span>قيمة موضوع التعاقد بالدينار</span>
-                <span>المبلغ بلسان القلم</span>
+                    </tr>
+                </table>
             </div>
-            <div class="amount-row">
-            <span>*******</span>
+
+
+        <div class="header">المبلغ الجملي لموضوع التعاقد
+
+            <div class="amount-section">
+                <div class="amount-row">
+                    <span>قيمة موضوع التعاقد بالدينار</span>
+                    <span>المبلغ بلسان القلم</span>
+                </div>
+                <div class="amount-row">
                 <span>*******</span>
+                    <span>*******</span>
+                </div>
             </div>
         </div>
-
-        <div class="section-title">القسم السادس : الأحكام التعاقدية الأخرى</div>
-
         
     </div>
+
+
+
+
+
+
+
+
+
+
+
     <div class="document">
         <div class="document-border">
-        <span>*******</span>
+        <div class="section-title">القسم السادس : الأحكام التعاقدية الأخرى </div>
+        <div>
+            <span>*******</span>
+        </div>
+
+        
+
 
         <div class="table-section">
-            <div class="table-title">القسم السابع : إمضاءات الأطراف والتعريف بها</div>
+            <div class="section-title">القسم السابع : إمضاءات الأطراف والتعريف بها</div>
             
             <table>
                 <thead>
@@ -562,17 +580,21 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div style="text-align: center; margin: 20px 0; font-size: 14px;">
-            <span>*******</span>            </div>
         </div>
     </div>
+
+
+
+
+
+
     <div class="document">
         <!-- Header Section -->
         <div class="header">
             <h1>البيانات المتعلقة بالسلطة الإدارية المعرفية بإيضاحات الأطراف</h1>
             
             <div class="header-info">
+            <span>أنا </span>
             <span>*******</span>
             <span>الصفة : محرر للعقود</span>
             </div>
@@ -591,130 +613,139 @@
         </div>
 
         <!-- Main Table Section -->
-        <div class="section-title">معاليم التحرير</div>
+        <div class="header">معاليم التحرير
         
-        <table>
-            <thead>
-                <tr>
-                    <th>معرف الطعوم</th>
-                    <th>الجهة المستدعاة</th>
-                    <th>المبلغ المستوجب</th>
-                    <th>المبلغ المستخلص</th>
-                    <th>عدد الوصل</th>
-                    <th>التاريخ</th>
-                    <th>مراجع الاستخلاص</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="row-11">
-                    <td></td>
-                    <td> </td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class="row-12">
-                    <td></td>
-                    <td> </td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class="row-14">
-                    <td></td>
-                    <td> </td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr class="total-row">
-                    <td colspan="2">المجموع</td>
-                    <td class="amount"></td>
-                    <td class="amount"></td>
-                    <td colspan="3"></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Signatures Table -->
-        <table class="signatures-table">
-            <thead>
-                <tr>
-                    <th>الصفة</th>
-                    <th>التلقي</th>
-                    <th>التحرير</th>
-                    <th>المراجعة</th>
-                    <th>المصادقة النهائية</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>الإمضاء</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>الختم</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>التاريخ</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- Final Section -->
-        <div class="final-section">
-            <div class="final-section-title">
-                البيانات المتعلقة بتسجيل العقد لدى القباضة المالية واستخلاص معلوم إدارة الملكية العقارية
-            </div>
-            
             <table>
                 <thead>
                     <tr>
-                        <th colspan="2">مراجع التسجيل</th>
-                        <th colspan="3">معلوم إدارة الملكية العقارية</th>
+                        <th>معرف المعلوم</th>
+                        <th>الجهة المستخلصة</th>
+                        <th>المبلغ المستوجب</th>
+                        <th>المبلغ المستخلص</th>
+                        <th>عدد الوصل</th>
+                        <th>التاريخ</th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-11">
+                        <td></td>
+                        <td> </td>
+                        <td class="amount"></td>
+                        <td class="amount"></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+                    <tr class="row-12">
+                        <td></td>
+                        <td> </td>
+                        <td class="amount"></td>
+                        <td class="amount"></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+                    <tr class="row-14">
+                        <td></td>
+                        <td> </td>
+                        <td class="amount"></td>
+                        <td class="amount"></td>
+                        <td></td>
+                        <td></td>
+                        
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="2">المجموع</td>
+                        <td class="amount"></td>
+                        <td class="amount"></td>
+                        <td colspan="3"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Signatures Table -->
+            <table class="signatures-table">
+                <thead>
+                    <tr>
+                        <th>الصفة</th>
+                        <th>التلقي</th>
+                        <th>التحرير</th>
+                        <th>المراجعة</th>
+                        <th>المصادقة النهائية</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>القيمة بالدينار</td>
-                        <td>النسبة</td>
-                        <td>المبلغ بالدينار</td>
-                        <td colspan="2"></td>
-                    </tr>
-                    <tr>
+                        <td>الإمضاء</td>
                         <td></td>
                         <td></td>
-                        <td colspan="3"></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                     <tr>
-                        <td colspan="2">ختم قابض التسجيل وإمضاؤه</td>
-                        <td colspan="3">ختم قابض التسجيل وإمضاؤه</td>
+                        <td>الختم</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>التاريخ</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Final Section -->
+        <div class="final-section">
+            <div class="header">
+                البيانات المتعلقة بتسجيل العقد لدى القباضة المالية واستخلاص معلوم إدارة الملكية العقارية
+            </div>
+            
+            <table>
+                <tr>
+                    <td class="header" colspan="3">معلوم إدارة الملكية العقارية</td>
+                    <td class="header">مراجع التسجيل</td>
+                </tr>
+                <tr>
+                    <td class="header">المبلغ بالدينار</td>
+                    <td class="header">النسبة</td>
+                    <td class="header">القيمة بالدينار</td>
+                    <td rowspan="3"></td>
+                </tr>
+                <tr>
+                    <td class="zero"><span>*************</span></td>
+                    <td class="percentage"><span>*************</span></td>
+                    <td class="amount"><span>*************</span></td>
+                </tr>
+                <tr>
+                    <td class="footer-text">ختم قابض التسجيل والطابع</td>
+                    <td colspan="2" class="footer-text">ختم قابض التسجيل والطابع</td>
+                </tr>
             </table>
         </div>
     </div>
     <div class="document-container">
         <div class="document">
             <!-- Title Section -->
-            <div class="section-title">
+            <div class="header">
                 البيانات المتعلقة بقضية معاليم الخدمات الراجعة لإدارة الملكية العقارية
             </div>
             
@@ -726,7 +757,7 @@
                         <th>القيمة بالدينار</th>
                         <th>النسبة</th>
                         <th>المبلغ بالدينار</th>
-                        <th>ملاحظة الملكية</th>
+                        
                     </tr>
                 </thead>
                 <tbody>
@@ -735,21 +766,21 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                    
                     </tr>
                     <tr>
                     <td></td>                        
                     <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <td></td>
+                    <td></td>
+                        
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                        
                     </tr>
                 </tbody>
             </table>

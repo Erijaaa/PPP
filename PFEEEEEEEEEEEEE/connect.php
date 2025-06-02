@@ -204,7 +204,7 @@ class ClsConnect {
         $sql = "SELECT * FROM contrat WHERE id_demande = :id";
         $stmt = $this->pdo->prepare($sql); 
         $stmt->bindParam(':id', $id_demande, PDO::PARAM_INT);
-        $stmt->execute();
+        //$stmt->execute();
 
         if ($stmt->rowCount() > 0) {
             return $stmt->fetch(PDO::FETCH_ASSOC);

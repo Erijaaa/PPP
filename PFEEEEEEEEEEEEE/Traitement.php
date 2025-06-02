@@ -796,8 +796,7 @@ $sujetContrat = $db->getSubject($id_demande);
               </table>
               <label>المجموع : </label>
               <input type="text"/>
-              <button class="btn-delete">حذف</button>
-              <button id="add-document" class="btn-add">إضافة سطر</button>
+
 
               <h3>البيانات المتعلقة بتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
               <table class="documents-table">
