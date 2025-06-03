@@ -82,16 +82,16 @@ CREATE TABLE charges_propriete (
 );
 
 -- Table pour les références d'inscription
-CREATE TABLE references_inscription (
-    id SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS references_inscription (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     id_demande VARCHAR(50),
     date_inscription DATE,
-    depot VARCHAR(100),
+    lieu_depot VARCHAR(255),
     volume VARCHAR(50),
-    numero VARCHAR(50),
-    num_subsidiaire VARCHAR(50),
+    numero INT,
+    numero_subsidiaire INT,
     FOREIGN KEY (id_demande) REFERENCES donnees_generales(id_demande)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Table pour les termes du contrat
 CREATE TABLE termes_contrat (

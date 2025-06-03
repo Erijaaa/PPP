@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once("connect.php");
-
+//require_once 'insert_data.php'; 
 $db = new ClsConnect();
 
 if (isset($_GET['id_demande']) && isset($_GET['num_recu'])) {
@@ -40,6 +40,13 @@ $pieces_jointes = $db->getPiecesJointesByDemande($id_demande);
 $agent = $db->getAgent($id_demande);
 $deposant = $db->getDeposant($id_demande);
 $sujetContrat = $db->getSubject($id_demande);
+
+
+$message = $db->insertContractData($pdo);
+echo $message;
+
+$message2 = $db->insertContractData2($pdo);
+echo $message2;
 
 ?> 
 
@@ -614,35 +621,39 @@ $sujetContrat = $db->getSubject($id_demande);
               <img src="media/logo.png" alt="ONPFF" class="logo" />
             </div>
 
-            <div class="section-title"> القسم الخامس : البيانات المتعلقة بموضوع التعاقد و مراجع انجراره بالرسم العقاري  </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>عدد الحق</th>
-                  <th>موضوع التعاقد</th>
-                  <th>الوحدة</th>
-                  <th>التجزئة العامة</th>
-                  <th>المحتوى</th>
-                  <th>الثمن </th>
-                  <th>المدة</th>
-                  <th>الفائض</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                </tr>
-              </tbody>
-            </table>
+            <form method="POST" action="">
+              <div class="section-title"> القسم الخامس : البيانات المتعلقة بموضوع التعاقد و مراجع انجراره بالرسم العقاري </div>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>عدد الحق</th>
+                          <th>موضوع التعاقد</th>
+                          <th>الوحدة</th>
+                          <th>التجزئة العامة</th>
+                          <th>المحتوى</th>
+                          <th>الثمن</th>
+                          <th>المدة</th>
+                          <th>الفائض</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td><input type="text" name="nom_droit1" required /></td>
+                          <td><input type="text" name="sujet_contrat1" required /></td>
+                          <td><input type="text" name="unite1" required /></td>
+                          <td><input type="number" name="detail_general" required /></td>
+                          <td><input type="text" name="contenu1" required /></td>
+                          <td><input type="text" name="valeur_prix1" required /></td>
+                          <td><input type="text" name="dure1" required /></td>
+                          <td><input type="text" name="surplus1" required /></td>
+                      </tr>
+                  </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
             <td><button class="btn-delete">حذف</button></td>
             <button id="add-document" class="btn-add">إضافة سطر</button>
+
             <h3>بيانات تتعلق بمراجع انجرار الترسيم</h3>
             <table>
               <thead>
@@ -656,14 +667,23 @@ $sujetContrat = $db->getSubject($id_demande);
               </thead>
               <tbody>
                 <tr>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
+                  <td><input type="date" name="date_inscri2" required /></td>
+                  <td><input type="text" name="lieu_inscri2" required/></td>
+                  <td><input type="text" name="doc2" required/></td>
+                  <td><input type="number" name="num_inscri2" required/></td>
+                  <td><input type="number" name="num_succursale2" required/></td>
                 </tr>
               </tbody>
             </table>
+            <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+
+
+
+
+
             <h3>البيانات الأخرى المتعلقة بالحق</h3>
             <table>
               <thead>
@@ -825,7 +845,7 @@ $sujetContrat = $db->getSubject($id_demande);
                     <th>  التسمية</th>
                     <th>  القيمة بالدينار</th>
                     <th> النسبة</th>
-                    <th>  القيمة بالدينار</th>
+                    <th> المبلغ بالدينار</th>
 
                   </tr>
                 </thead>

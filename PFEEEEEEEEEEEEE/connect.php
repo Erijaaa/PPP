@@ -606,6 +606,144 @@ class ClsConnect {
     public function rollBack() {
         return $this->pdo->rollBack();
     }
+
+    function insertContractData($pdo) {
+        if (isset($_POST['submit'])) {
+            // Récupérer les données du formulaire
+            $nom_droit1 = $_POST['nom_droit1'];
+            $sujet_contrat1 = $_POST['sujet_contrat1'];
+            $unite1 = $_POST['unite1'];
+            $detail_general = (int)$_POST['detail_general1']; // ✔ correct
+            $contenu1 = $_POST['contenu1'];
+            $valeur_prix1 = $_POST['valeur_prix1'];
+            $dure1 = $_POST['dure1'];
+            $surplus1 = $_POST['surplus1'];
+    
+            try {
+                $sql = "INSERT INTO dessin_immobiler1 
+                    (nom_droit1, sujet_contrat1, unite1, detail_general, contenu1, valeur_prix1, dure1, surplus1)
+                    VALUES 
+                    (:nom_droit1, :sujet_contrat1, :unite1, :detail_general, :contenu1, :valeur_prix1, :dure1, :surplus1)";
+                
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':nom_droit1' => $nom_droit1,
+                    ':sujet_contrat1' => $sujet_contrat1,
+                    ':unite1' => $unite1,
+                    ':detail_general' => $detail_general, // ✔ corrigé ici
+                    ':contenu1' => $contenu1,
+                    ':valeur_prix1' => $valeur_prix1,
+                    ':dure1' => $dure1,
+                    ':surplus1' => $surplus1
+                ]);
+    
+                return "✅ Les données ont été enregistrées avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+
+
+    function insertContractData2($pdo) {
+        if (isset($_POST['submit'])) {
+            $stmt = $pdo->prepare("INSERT INTO dessin_immobilers2
+                (date_inscri2, lieu_inscri2, doc2, num_inscri2, num_succursale2)
+                VALUES 
+                (:date_inscri2, :lieu_inscri2, :doc2, :num_inscri2, :num_succursale2)");
+            
+            $stmt->execute([
+                ':date_inscri2' => $date_inscri2,
+                ':lieu_inscri2' => $lieu_inscri2,
+                ':doc2' => $doc2,
+                ':num_inscri2' => $num_inscri2,
+                ':num_succursale2' => $num_succursale2
+            ]);
+        }
+    
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
