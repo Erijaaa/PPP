@@ -66,6 +66,9 @@ echo $revVal ;
 $prix = $db->validerPrix($pdo);
 echo $prix;
 
+$perc1 = $db->perception1($pdo);
+echo $perc1;
+
 ?> 
 
 
@@ -847,12 +850,12 @@ echo $prix;
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
+                    <td><input type="text" name="id_montant1" required/></td>
+                    <td><input type="text" name="partieabstrait1" required/></td>
+                    <td><input type="text" name="montant_obligatoire1" required/></td>
+                    <td><input type="text" name="montant_paye1" required/></td>
+                    <td><input type="text" name="num_recu1" required/></td>
+                    <td><input type="text" name="date_payement1" required/></td>
                   
                   </tr>
                 </tbody>
@@ -959,6 +962,7 @@ echo $prix;
 
 
 
+            <form method="POST" action="">
               <h3>البيانات المتعلقة بتصفية معاليم الخدمات الراجعة لادارة الملكية العقارية</h3>
               <table class="documents-table">
                 <thead>
@@ -977,26 +981,16 @@ echo $prix;
                     <td><input type="text" /></td>
                     <td><input type="text" /></td>
                   </tr>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
                 </tbody>
               </table>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
+
+
+            
               <form method="post" action="verifierContrat.php" id="contractForm">
               <input type="hidden" name="id_demande" value="<?php echo htmlspecialchars($id_demande); ?>">
               <input type="hidden" name="num_contrat" value="<?php echo htmlspecialchars($id_contrat); ?>">

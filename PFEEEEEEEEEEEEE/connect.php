@@ -810,7 +810,13 @@ class ClsConnect {
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
+                    ':prenom_personne' => $prenom_personne
+                    ':prenom_pere' => $prenom_pere
+                    ':prenom_grandpere' => $prenom_grandpere
                     ':contenue_chapitre' => $contenue_chapitre
+                    ':nom_personne' => $nom_personne
+                    ':statut' => $statut
+                    ':signature' => $signature
                 ]);
 
                 return "✅ Le chapitre a été enregistré avec succès !";
@@ -820,6 +826,92 @@ class ClsConnect {
         }
         return null;
     }
+
+
+    public function perception1($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $id_montant1 = $_POST['id_montant1'] ?? null;
+                $partieabstrait1 = $_POST['partieabstrait1'] ?? null;
+                $montant_obligatoire1 = $_POST['montant_obligatoire1'] ?? null;
+                $montant_paye1 = $_POST['montant_paye1'] ?? null;
+                $num_recu1 = $_POST['num_recu1'] ?? null;
+                $date_payement1 = $_POST['date_payement1'] ?? null;
+
+                // Vérification que le champ n'est pas vide
+                if (!$date_payement1) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO perception1(
+                    id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)
+                    VALUES (id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':id_montant1' => $id_montant1
+                    ':partieabstrait1' => $partieabstrait1
+                    ':montant_paye1' => $montant_paye1
+                    ':num_recu1' => $num_recu1
+                    ':date_payement1' => $date_payement1
+
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+
+
+    public function perception1($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $id_montant1 = $_POST['id_montant1'] ?? null;
+                $partieabstrait1 = $_POST['partieabstrait1'] ?? null;
+                $montant_obligatoire1 = $_POST['montant_obligatoire1'] ?? null;
+                $montant_paye1 = $_POST['montant_paye1'] ?? null;
+                $num_recu1 = $_POST['num_recu1'] ?? null;
+                $date_payement1 = $_POST['date_payement1'] ?? null;
+
+                // Vérification que le champ n'est pas vide
+                if (!$date_payement1) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO perception1(
+                    id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)
+                    VALUES (id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':id_montant1' => $id_montant1
+                    ':partieabstrait1' => $partieabstrait1
+                    ':montant_paye1' => $montant_paye1
+                    ':num_recu1' => $num_recu1
+                    ':date_payement1' => $date_payement1
+
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+
+    
+
+
+
+
 
     public function validerPrix($pdo) {
         if (isset($_POST['submit'])) {
@@ -840,7 +932,9 @@ class ClsConnect {
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':contenue_chapitre' => $contenue_chapitre
+                    ':valeur_dinar3' => $valeur_dinar3
+                    ':pourcent3' => $pourcent3
+                    ':montant_dinar3' => $montant_dinar3
                 ]);
 
                 return "✅ Le chapitre a été enregistré avec succès !";
@@ -874,7 +968,12 @@ class ClsConnect {
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':contenue_chapitre' => $contenue_chapitre
+                    ':statut2' => $statut2
+                    ':redacteur2' => $redacteur2
+                    ':redaction2' => $redaction2
+                    ':revision2' => $revision2
+                    ':validationFinal2' => $validationFinal2
+
                 ]);
 
                 return "✅ Le chapitre a été enregistré avec succès !";
