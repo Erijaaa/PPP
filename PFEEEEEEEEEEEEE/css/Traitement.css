@@ -60,10 +60,14 @@ body {
   display: none;
   min-height: 100vh;
   background: #fff;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .main-content.active {
-  display: block;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
 }
 
 .container > * {
@@ -79,6 +83,8 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  margin: 0 !important;
+  padding: 10px !important;
 }
 
 .logo {
@@ -345,6 +351,8 @@ table select:focus {
   padding-bottom: 10px;
   font-size: 18px;
   font-weight: bold;
+  margin: 0 !important;
+  padding: 10px !important;
 }
 
 .row {
@@ -1080,4 +1088,53 @@ input[type="text"] {
 
 .form-actions .btn-add:hover {
   background-color: #0a3d5c;
+}
+
+/* Réduction des marges au strict minimum */
+form,
+textarea,
+h2,
+.section-title,
+.top-bar,
+.main-content,
+.content-block,
+.form-container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Espacement minimum entre les formulaires uniquement */
+.extraction-form {
+    margin-bottom: 20px;
+}
+
+/* Supprimer les marges des titres */
+h2.section-title {
+    margin: 0 !important;
+}
+
+/* Pour la première section, pas de marge du tout */
+.extraction-form:first-of-type {
+    margin-top: 0 !important;
+}
+
+/* Ajustement des formulaires */
+.main-content form {
+    margin: 0 !important;
+    padding: 10px !important;
+}
+
+/* Ajustement spécifique pour les trois dernières sections */
+#property-burdens-content,
+#contract-terms-content,
+#extraction-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
+
+#property-burdens-content > *,
+#contract-terms-content > *,
+#extraction-content > * {
+    margin: 0 !important;
 }
