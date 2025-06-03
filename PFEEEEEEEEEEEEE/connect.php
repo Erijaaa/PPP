@@ -607,39 +607,51 @@ class ClsConnect {
         return $this->pdo->rollBack();
     }
 
-    function insertContractData($pdo) {
+
+
+
+
+
+    //القسم الخامس
+    public function insertContractData($pdo) {
         if (isset($_POST['submit'])) {
-            // Récupérer les données du formulaire
-            $nom_droit1 = $_POST['nom_droit1'];
-            $sujet_contrat1 = $_POST['sujet_contrat1'];
-            $unite1 = $_POST['unite1'];
-            $detail_general = (int)$_POST['detail_general1']; // ✔ correct
-            $contenu1 = $_POST['contenu1'];
-            $valeur_prix1 = $_POST['valeur_prix1'];
-            $dure1 = $_POST['dure1'];
-            $surplus1 = $_POST['surplus1'];
-    
             try {
+                // Vérification que les données existent
+                $nom_droit1 = $_POST['nom_droit1'] ?? null;
+                $sujet_contrat1 = $_POST['sujet_contrat1'] ?? null;
+                $unite1 = $_POST['unite1'] ?? null;
+                $detail_general = $_POST['detail_general'] ?? null;
+                $contenu1 = $_POST['contenu1'] ?? null;
+                $valeur_prix1 = $_POST['valeur_prix1'] ?? null;
+                $dure1 = $_POST['dure1'] ?? null;
+                $surplus1 = $_POST['surplus1'] ?? null;
+
+                // Vérification qu'au moins un champ est rempli
+                if (!$nom_droit1 && !$sujet_contrat1 && !$unite1 && !$detail_general && 
+                    !$contenu1 && !$valeur_prix1 && !$dure1 && !$surplus1) {
+                    return "❌ Aucune donnée à sauvegarder";
+                }
+
                 $sql = "INSERT INTO dessin_immobiler1 
-                    (nom_droit1, sujet_contrat1, unite1, detail_general, contenu1, valeur_prix1, dure1, surplus1)
-                    VALUES 
-                    (:nom_droit1, :sujet_contrat1, :unite1, :detail_general, :contenu1, :valeur_prix1, :dure1, :surplus1)";
+                        (nom_droit1, sujet_contrat1, unite1, detail_general, contenu1, valeur_prix1, dure1, surplus1)
+                        VALUES 
+                        (:nom_droit1, :sujet_contrat1, :unite1, :detail_general, :contenu1, :valeur_prix1, :dure1, :surplus1)";
                 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     ':nom_droit1' => $nom_droit1,
                     ':sujet_contrat1' => $sujet_contrat1,
                     ':unite1' => $unite1,
-                    ':detail_general' => $detail_general, // ✔ corrigé ici
+                    ':detail_general' => $detail_general,
                     ':contenu1' => $contenu1,
                     ':valeur_prix1' => $valeur_prix1,
                     ':dure1' => $dure1,
                     ':surplus1' => $surplus1
                 ]);
-    
+
                 return "✅ Les données ont été enregistrées avec succès !";
             } catch (PDOException $e) {
-                return "❌ Erreur : " . $e->getMessage();
+                return "❌ Erreur SQL : " . $e->getMessage();
             }
         }
         return null;
@@ -648,22 +660,130 @@ class ClsConnect {
 
 
 
-    function insertContractData2($pdo) {
+    public function insertContractData2($pdo) {
         if (isset($_POST['submit'])) {
-            $stmt = $pdo->prepare("INSERT INTO dessin_immobilers2
-                (date_inscri2, lieu_inscri2, doc2, num_inscri2, num_succursale2)
-                VALUES 
-                (:date_inscri2, :lieu_inscri2, :doc2, :num_inscri2, :num_succursale2)");
-            
-            $stmt->execute([
-                ':date_inscri2' => $date_inscri2,
-                ':lieu_inscri2' => $lieu_inscri2,
-                ':doc2' => $doc2,
-                ':num_inscri2' => $num_inscri2,
-                ':num_succursale2' => $num_succursale2
-            ]);
+            try {
+                $date_inscri2 = $_POST['date_inscri2'] ?? null;
+                $lieu_inscri2 = $_POST['lieu_inscri2'] ?? null;
+                $doc2 = $_POST['doc2'] ?? null;
+                $num_inscri2 = $_POST['num_inscri2'] ?? null;
+                $num_succursale2 = $_POST['num_succursale2'] ?? null;
+
+                // Vérification qu'au moins un champ est rempli
+                if (!$date_inscri2 && !$lieu_inscri2 && !$doc2 && !$num_inscri2 && !$num_succursale2) {
+                    return "❌ Aucune donnée à sauvegarder";
+                }
+
+                $sql = "INSERT INTO dessin_immobilier2 
+                        (date_inscri2, lieu_inscri2, doc2, num_inscri2, num_succursale2) 
+                        VALUES 
+                        (:date_inscri2, :lieu_inscri2, :doc2, :num_inscri2, :num_succursale2)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':date_inscri2' => $date_inscri2,
+                    ':lieu_inscri2' => $lieu_inscri2,
+                    ':doc2' => $doc2,
+                    ':num_inscri2' => $num_inscri2,
+                    ':num_succursale2' => $num_succursale2
+                ]);
+
+                return "✅ Les données ont été enregistrées avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
         }
-    
+        return null;
+    }
+
+    public function insertContractData3($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $regime_finance_couple3 = $_POST['regime_finance_couple3'] ?? null;
+                $remarques3 = $_POST['remarques3'] ?? null;
+
+                // Vérification qu'au moins un champ est rempli
+                if (!$regime_finance_couple3 && !$remarques3) {
+                    return "❌ Aucune donnée à sauvegarder";
+                }
+
+                $sql = "INSERT INTO dessin_immobiler3
+                        (regime_finance_couple3, remarques3)
+                        VALUES 
+                        (:regime_finance_couple3, :remarques3)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':regime_finance_couple3' => $regime_finance_couple3,
+                    ':remarques3' => $remarques3
+                ]);
+
+                return "✅ Les données ont été enregistrées avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+    public function insertContractData4($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $valeur_contrat_dinar = $_POST['valeur_contrat_dinar'] ?? null;
+                $prix_ecriture = $_POST['prix_ecriture'] ?? null;
+
+                // Vérification qu'au moins un champ est rempli
+                if (!$valeur_contrat_dinar && !$prix_ecriture) {
+                    return "❌ Aucune donnée à sauvegarder";
+                }
+
+                $sql = "INSERT INTO dessin_immobilier4
+                        (valeur_contrat_dinar, prix_ecriture)
+                        VALUES 
+                        (:valeur_contrat_dinar, :prix_ecriture)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':valeur_contrat_dinar' => $valeur_contrat_dinar,
+                    ':prix_ecriture' => $prix_ecriture
+                ]);
+
+                return "✅ Les données ont été enregistrées avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+    //القسم السادس
+    public function insertChapitres($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $contenue_chapitre = $_POST['contenue_chapitre'] ?? null;
+
+                // Vérification que le champ n'est pas vide
+                if (!$contenue_chapitre) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO chapitres_juridiques
+                        (contenue_chapitre)
+                        VALUES 
+                        (:contenue_chapitre)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':contenue_chapitre' => $contenue_chapitre
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
     }
     
 
@@ -671,81 +791,7 @@ class ClsConnect {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-}
-
+    
 
     /**
      * Démarre la session et stocke les infos de l'utilisateur.
@@ -783,26 +829,12 @@ class ClsConnect {
                 header('Location: login.php?error=role_invalide');
         }
         exit;
-    }
+    }*/
+
+}
 
 
-        /*public function getDemandeById($id_demande) {
-            $sql = "SELECT * FROM public.\"T_demande\" WHERE id_demande = :id_demande";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':id_demande', $id_demande, PDO::PARAM_INT);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }*/
         
-
-        /*public function close() {
-            $this->conn = null;
-        }*/
-
 
 
 

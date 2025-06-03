@@ -48,6 +48,15 @@ echo $message;
 $message2 = $db->insertContractData2($pdo);
 echo $message2;
 
+$message3 = $db->insertContractData3($pdo);
+echo $message3;
+
+$message4 = $db->insertContractData4($pdo);
+echo $message4;
+
+$chapitre = $db->insertChapitres($pdo);
+echo $chapitre;
+
 ?> 
 
 
@@ -654,66 +663,86 @@ echo $message2;
             <td><button class="btn-delete">حذف</button></td>
             <button id="add-document" class="btn-add">إضافة سطر</button>
 
-            <h3>بيانات تتعلق بمراجع انجرار الترسيم</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th> التاريخ</th>
-                  <th> الايداع</th>
-                  <th>المجلد</th>
-                  <th>العدد </th>
-                  <th>ع.الفرعي</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="date" name="date_inscri2" required /></td>
-                  <td><input type="text" name="lieu_inscri2" required/></td>
-                  <td><input type="text" name="doc2" required/></td>
-                  <td><input type="number" name="num_inscri2" required/></td>
-                  <td><input type="number" name="num_succursale2" required/></td>
-                </tr>
-              </tbody>
-            </table>
-            <button type="submit" name="submit">حفظ</button>
+            <form method="POST" action="">
+              <h3>بيانات تتعلق بمراجع انجرار الترسيم</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th> التاريخ</th>
+                    <th> الايداع</th>
+                    <th>المجلد</th>
+                    <th>العدد </th>
+                    <th>ع.الفرعي</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                  <td><input type="text" name="date_inscri2"></td>
+                  <td><input type="text" name="lieu_inscri2"></td>
+                  <td><input type="text" name="doc2"></td>
+                  <td><input type="text" name="num_inscri2"></td>
+                  <td><input type="text" name="num_succursale2"></td>
+
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
+              </form>
+              <td><button class="btn-delete">حذف</button></td>
+              <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>  
+
+
+
+
+
+            <form method="POST" action="">
+              <h3>البيانات الأخرى المتعلقة بالحق</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th> النظام المالي للزواج</th>
+                    <th> ملاحظات أخرى</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                  <td><input type="text" name="regime_finance_couple3" required /></td>
+                  <td><input type="text" name="remarques3" required /></td>
+                   
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
+              </form>
+              <td><button class="btn-delete">حذف</button></td>
+              <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form> 
+
+
+
+
+            <form method="POST" action="">
+              <h3>المبلغ الجملي لموضوع التعاقد</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th> قيمة موضوع التعاقد بالدينار</th>
+                    <th>  المبلغ بلسان القلم</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" name="" required /></td>
+                    <td><input type="text" name="" required /></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
             </form>
             <td><button class="btn-delete">حذف</button></td>
             <button id="add-document" class="btn-add">إضافة سطر</button>
-
-
-
-
-
-            <h3>البيانات الأخرى المتعلقة بالحق</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th> النظام المالي للزواج</th>
-                  <th> ملاحظات أخرى</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                </tr>
-              </tbody>
-            </table>
-            <h3>المبلغ الجملي لموضوع التعاقد</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th> قيمة موضوع التعاقد بالدينار</th>
-                  <th>  المبلغ بلسان القلم</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><input type="text" /></td>
-                  <td><input type="text" /></td>
-                </tr>
-              </tbody>
-            </table>         
+            </form>          
         </div>
       </div>
 
@@ -734,13 +763,17 @@ echo $message2;
         </div>
 
         <h2 class="section-title"> القسم السادس : البيانات المتعلقة بالأحكام التعاقدية</h2>
-        <div>المحتوى</div>
-        <textarea
-          name=""
-          id=""
-          style="width: 80%; height: 50%; border-radius: 10px"
-        ></textarea>
-      </div>
+        <form method="POST" action="">
+          <div>المحتوى</div>
+          <textarea
+            name="contenue_chapitre"
+            id=""
+            style="width: 80%; height: 50%; border-radius: 10px" required
+          ></textarea>
+          <button type="submit" name="submit">حفظ</button>
+        </div>
+        
+        </form>
 
       <!-- Extraction Section -->
       <div id="extraction-content" class="main-content">
