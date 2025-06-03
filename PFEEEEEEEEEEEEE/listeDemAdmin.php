@@ -23,13 +23,33 @@ try {
     error_log("Erreur lors de l'accès à la table T_demande : " . $e->getMessage());
 }
 
+// Récupérer le critère de tri
+$sortBy = isset($_GET['sort']) ? $_GET['sort'] : '';
+
 try {
-    // Récupération des demandes
-    $dem = $connect->getAllDemandes();
+    // Récupération des demandes avec tri
+    $query = 'SELECT * FROM "T_demande"';
     
-    // Debug - Afficher les données récupérées
-    echo "<!-- Debug: Nombre de demandes = " . count($dem) . " -->";
-    echo "<!-- Debug: Données = " . print_r($dem, true) . " -->";
+    // Ajouter la clause ORDER BY selon le critère
+    switch($sortBy) {
+        case 'date':
+            $query .= ' ORDER BY date_demande DESC';
+            break;
+        case 'type':
+            $query .= ' ORDER BY type_demande DESC';
+            break;
+        case 'status':
+            $query .= ' ORDER BY CASE 
+                        WHEN etat_demande = 1 THEN 1 
+                        WHEN etat_demande = 0 THEN 1 
+                        WHEN etat_demande = -1 THEN -1 
+                        ELSE 1 END';
+            break;
+    }
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $dem = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
 } catch (Exception $e) {
     echo "Erreur : " . $e->getMessage();
@@ -41,17 +61,33 @@ function formatDate($date) {
     return date('Y-m-d', strtotime($date));
 }
 
-// Fonction pour traduire le type de demande
-function getTypeDemande($type) {
-    switch($type) {
+
+// Fonction pour obtenir la classe CSS de l'état
+function getStatusClass($etat) {
+    switch($etat) {
         case 1:
-            return "عقد بيع";
-        case 2:
-            return "عقد كراء";
+            return 'status-approved';
+        case -1:
+            return 'status-rejected';
         default:
-            return "غير محدد";
+            return 'status-pending';
     }
 }
+
+// Fonction pour obtenir le texte de l'état
+function getStatusText($etat) {
+    switch($etat) {
+        case 1:
+            return 'مقبول';
+        case -1:
+            return 'مرفوض';
+        default:
+            return 'في الانتظار';
+    }
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -90,6 +126,20 @@ function getTypeDemande($type) {
         .status-rejected {
             color: #e74c3c;
         }
+        .btn-modifier {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-modifier:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
@@ -115,9 +165,9 @@ function getTypeDemande($type) {
             <label for="filter">قائمة المطالب  حسب:</label>
             <select id="filter" onchange="filterDemandes(this.value)">
                 <option value="">الكل</option>
-                <option value="date">التاريخ</option>
-                <option value="type">نوع الطلب</option>
-                <option value="status">الحالة</option>
+                <option value="date" <?php echo $sortBy == 'date' ? 'selected' : ''; ?>>التاريخ</option>
+                <option value="type_demande" <?php echo $sortBy == 'type_demande' ? 'selected' : ''; ?>>نوع الطلب</option>
+                <option value="status" <?php echo $sortBy == 'status' ? 'selected' : ''; ?>>الحالة</option>
             </select>
         </div>
 
@@ -130,7 +180,7 @@ function getTypeDemande($type) {
                     <th>رقم الوصل</th>
                     <th>نوع الطلب</th>
                     <th>الحالة</th>
-                    <th>العمليات</th>
+                    <th>الإجراءات</th>
                 </tr>
             </thead>
             <tbody>
@@ -138,22 +188,14 @@ function getTypeDemande($type) {
                     <?php foreach ($dem as $demande) : ?>
                         <tr>
                             <td><?php echo htmlspecialchars($demande['id_demande'] ?? ''); ?></td>
-                            <td><?php echo isset($demande['date_demande']) ? date('Y-m-d', strtotime($demande['date_demande'])) : ''; ?></td>
+                            <td><?php echo isset($demande['date_demande']) ? formatDate($demande['date_demande']) : ''; ?></td>
                             <td><?php echo htmlspecialchars($demande['num_recu'] ?? ''); ?></td>
-                            <td><?p($demande['type_demande'] ?? 0); ?></td>
-                            <td class="<?php 
-                                $etat = isset($demande['etat_demande']) ? (int)$demande['etat_demande'] : 0;
-                                echo 'status-' . ($etat == 1 ? 'approved' : ($etat == 2 ? 'rejected' : 'pending')); 
-                            ?>">
-                                <?php 
-                                    $etat = isset($demande['etat_demande']) ? (int)$demande['etat_demande'] : 0;
-                                    echo $etat == 1 ? 'مقبول' : 
-                                         ($etat == 2 ? 'مرفوض' : 'في الانتظار');
-                                ?>
+                            <td><?php echo isset($demande['type_demande']) ? htmlspecialchars($demande['type_demande']) : ''; ?></td>
+                            <td class="<?php echo getStatusClass($demande['etat_demande'] ?? 0); ?>">
+                                <?php echo getStatusText($demande['etat_demande'] ?? 0); ?>
                             </td>
                             <td>
-                                <a href="Traitement.php?id_demande=<?php echo $demande['id_demande']; ?>&num_recu=<?php echo $demande['num_recu']; ?>" 
-                                   class="edit-btn">معالجة</a>
+                                <button onclick="modifierDemande('<?php echo htmlspecialchars($demande['id_demande']); ?>', '<?php echo htmlspecialchars($demande['num_recu']); ?>')" class="btn-modifier">تعديل</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -164,13 +206,18 @@ function getTypeDemande($type) {
                 <?php endif; ?>
             </tbody>
         </table>
+
     </div>
 </div>
 
 <script>
 function filterDemandes(value) {
-    // Implémentez ici la logique de filtrage
-    console.log("Filtering by: " + value);
+    window.location.href = 'listeDemAdmin.php?sort=' + value;
+}
+
+function modifierDemande(id_demande, num_recu) {
+    // Rediriger vers la page de traitement avec les paramètres nécessaires
+    window.location.href = 'Traitement.php?id_demande=' + id_demande + '&num_recu=' + num_recu;
 }
 
 // Afficher un message si aucune donnée n'est trouvée

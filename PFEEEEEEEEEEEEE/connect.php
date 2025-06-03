@@ -608,6 +608,58 @@ class ClsConnect {
     }
 
 
+    //ajouter un nouveau user par l'admin
+    public function ajouterUser($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                // Vérification que les données existent
+                $post = $_POST['post'] ?? null;
+                $nom_prenom_user = $_POST['nom_prenom_user'] ?? null;
+                $cin_user = $_POST['cin_user'] ?? null;
+                $email_user = $_POST['email_user'] ?? null;
+                $adresse_user = $_POST['adresse_user'] ?? null;
+                $telephone_user = $_POST['telephone_user'] ?? null;
+                $date_naissance_user = $_POST['date_naissance_user'] ?? null;
+                $password_user = $_POST['password_user'] ?? null;
+
+                // Vérification qu'au moins un champ est rempli
+                if (!$cin_user) {
+                    return "❌ رقم التعريف مطلوب";
+                }
+
+                // Vérifier si le CIN existe déjà
+                $check_sql = "SELECT cin_user FROM users WHERE cin_user = :cin_user";
+                $check_stmt = $pdo->prepare($check_sql);
+                $check_stmt->execute([':cin_user' => $cin_user]);
+                
+                if ($check_stmt->rowCount() > 0) {
+                    return "❌ رقم التعريف موجود بالفعل";
+                }
+
+                $sql = "INSERT INTO users(
+	                    nom_prenom_user, cin_user, email_user, adresse_user, telephone_user, date_naissance_user, password_user, post)
+	                    VALUES (:nom_prenom_user, :cin_user, :email_user, :adresse_user, :telephone_user, :date_naissance_user, :password_user, :post)";
+                
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':post' => $post,
+                    ':nom_prenom_user' => $nom_prenom_user,
+                    ':cin_user' => $cin_user,
+                    ':email_user' => $email_user,
+                    ':adresse_user' => $adresse_user,
+                    ':telephone_user' => $telephone_user,
+                    ':date_naissance_user' => $date_naissance_user,
+                    ':password_user' => $password_user
+                ]);
+
+                return "✅ تمت إضافة المستخدم بنجاح";
+            } catch (PDOException $e) {
+                return "❌ خطأ في إضافة المستخدم: " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
 
 
 

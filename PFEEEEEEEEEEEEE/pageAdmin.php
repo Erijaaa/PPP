@@ -1,6 +1,5 @@
 <?php
 require_once 'connect.php';
-
 $connect = new ClsConnect();             // Création de l'objet ClsConnect
 $pdo = $connect->getConnection();        // Récupération de la connexion PDO
 
@@ -29,13 +28,29 @@ $sql = "
         telephone,
         'valideur' AS role
     FROM valideur
+    UNION
+    SELECT 
+        nom_prenom_user AS nom,
+        '' AS prenom,
+        cin_user AS identification_number,
+        password_user AS password,
+        post,
+        email_user AS email,
+        adresse_user AS adresse,
+        telephone_user AS telephone,
+        'user' AS role
+    FROM users
 ";
-
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+$message = '';
+$nouv_user = $connect->ajouterUser($pdo);
+if ($nouv_user) {
+    $message = $nouv_user;
+}
 ?>
 
 
@@ -111,6 +126,25 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         flex-direction: column;
         flex: 1 1 200px;
         }
+
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
     </style>
 </head>
 <body>
@@ -138,53 +172,55 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <h2>إدارة الوكلاء</h2>
 
             <!-- Form -->
-            <div class="form-container">
+            <form method="POST" action="">
                 <form id="agentForm">
-                    <div class="form-group" style="display: flex; align-items: center">
-                        <label for="post">عدد الصلاحية</label>
-                        <select>
-                            <option value="">-- --</option>
-                            <option value="un">1</option>
-                            <option value="deux">2</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="agentName">الاسم و اللقب</label>
-                        <input type="text" id="agentName" name="agentName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cin">رقم التعريف</label>
-                        <input type="text" id="cin" name="cin" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="agentEmail">البريد الإلكتروني</label>
-                        <input type="email" id="agentEmail" name="agentEmail" required>
-                    </div>
-
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                    <label for="post">عدد الصلاحية</label>
+                    <select name="post" id="post" required>
+                        <option value="">-- اختر --</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
 
                     <div class="form-group">
-                        <label for="agentAdresse"> العنوان </label>
-                        <input type="text" id="agentAdresse" name="agentAdresse" required>
+                        <label>الاسم و اللقب</label>
+                        <input type="text" name="nom_prenom_user" required>
+                    </div>
+                    <div class="form-group">
+                        <label>رقم التعريف</label>
+                        <input type="text" name="cin_user" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" name="email_user" required>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="agentTele"> رقم الهاتف</label>
-                        <input type="text" id="agentTele" name="agentTele" required>
+                        <label> العنوان </label>
+                        <input type="text" name="adresse_user" required>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="agentNaissance"> تاريخ الولادة</label>
-                        <input type="date" id="agentNaissance" name="agentNaissance" required>
+                        <label> رقم الهاتف</label>
+                        <input type="text" name="telephone_user" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label> تاريخ الولادة</label>
+                        <input type="date" name="date_naissance_user" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">كلمة المرور</label>
-                        <input type="text" id="password" name="password" required>
+                        <label>كلمة المرور</label>
+                        <input type="text" name="password_user" required>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">إضافة</button>
+                        <button type="submit" name="submit" class="btn btn-primary">إضافة</button>
                         <button type="button" class="btn btn-secondary" onclick="clearForm()">إلغاء</button>
                     </div>
                 </form>
@@ -213,7 +249,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <td class="actions">
                                     <button class="edit-btn" onclick="showEditForm(this, <?= htmlspecialchars(json_encode($user)) ?>)">تعديل</button>
                                     <?php if (($user['id'] ?? null) != ($_SESSION['user_id'] ?? null)): ?>
-                                        <a class="delete-btn" href="?delete=<?= urlencode($user['id'] ?? '') ?>" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">حذف</a>
+                                        <a class="delete-btn" href="?delete=<?= urlencode($user['email'] ?? '') ?>&role=<?= urlencode($user['role'] ?? '') ?>" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟')">حذف</a>
                                     <?php endif; ?>
                                 </td>
                             </tr>
@@ -221,37 +257,41 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <!-- Ligne masquée contenant le formulaire -->
                             <tr class="edit-form-row" style="display: none;">
                                 <td colspan="5">
-                                    <form class="edit-user-form">
+                                    <form class="edit-user-form" method="POST" action="update_user.php">
+                                        <input type="hidden" name="old_email" value="<?= htmlspecialchars($user['email']) ?>">
+                                        <input type="hidden" name="role" value="<?= htmlspecialchars($user['role']) ?>">
                                         <div class="form-group">
                                             <label>الاسم و اللقب</label>
-                                            <input type="text" name="agentName">
+                                            <input type="text" name="agentName" required>
                                         </div>
                                         <div class="form-group">
                                             <label>رقم التعريف</label>
-                                            <input type="text" name="cin">
+                                            <input type="text" name="cin" required>
                                         </div>
                                         <div class="form-group">
                                             <label>البريد الإلكتروني</label>
-                                            <input type="email" name="agentEmail">
+                                            <input type="email" name="agentEmail" required>
                                         </div>
                                         <div class="form-group">
                                             <label>العنوان</label>
-                                            <input type="text" name="agentAdresse">
+                                            <input type="text" name="agentAdresse" required>
                                         </div>
                                         <div class="form-group">
                                             <label>رقم الهاتف</label>
-                                            <input type="number" name="agentTele">
+                                            <input type="text" name="agentTele" required>
                                         </div>
                                         <div class="form-group">
                                             <label>تاريخ الولادة</label>
-                                            <input type="date" name="agentNaissance">
+                                            <input type="date" name="agentNaissance" required>
                                         </div>
                                         <div class="form-group">
                                             <label>كلمة المرور</label>
-                                            <input type="text" name="password">
+                                            <input type="password" name="password" placeholder="اتركه فارغًا إذا لم تكن تريد تغييره">
                                         </div>
-                                        <button type="submit" class="save-btn">تم الحفظ</button>
-                                        <button type="button" class="cancel-btn" onclick="hideEditForm(this)">إلغاء</button>
+                                        <div class="form-actions">
+                                            <button type="submit" class="save-btn">حفظ</button>
+                                            <button type="button" class="cancel-btn" onclick="hideEditForm(this)">إلغاء</button>
+                                        </div>
                                     </form>
                                 </td>
                             </tr>
@@ -304,5 +344,44 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <script src="script/script.js"></script>
+    <script>
+    function showEditForm(button, userData) {
+        // Masquer tous les autres formulaires
+        document.querySelectorAll('.edit-form-row').forEach(row => {
+            row.style.display = 'none';
+        });
+
+        // Afficher le formulaire de la ligne actuelle
+        const row = button.closest('tr');
+        const formRow = row.nextElementSibling;
+        formRow.style.display = 'table-row';
+
+        // Pré-remplir le formulaire avec les données de l'utilisateur
+        const form = formRow.querySelector('form');
+        const [nom, prenom] = (userData.nom + ' ' + userData.prenom).split(' ');
+        form.agentName.value = nom + ' ' + prenom;
+        form.cin.value = userData.identification_number || '';
+        form.agentEmail.value = userData.email || '';
+        form.agentAdresse.value = userData.adresse || '';
+        form.agentTele.value = userData.telephone || '';
+        form.agentNaissance.value = userData.date_naissance || '';
+        form.password.value = ''; // Ne pas pré-remplir le mot de passe pour des raisons de sécurité
+    }
+
+    function hideEditForm(button) {
+        const formRow = button.closest('.edit-form-row');
+        formRow.style.display = 'none';
+    }
+
+    function clearForm() {
+        document.getElementById('agentForm').reset();
+    }
+
+    // Function to refresh the page after successful form submission
+    document.querySelector('form[method="POST"]').addEventListener('submit', function(e) {
+        // Form will submit normally, and page will refresh to show new user
+        // The PHP code above will handle displaying the success/error message
+    });
+    </script>
 </body>
 </html>
