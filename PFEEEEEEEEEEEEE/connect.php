@@ -629,7 +629,7 @@ class ClsConnect {
                 // Vérification qu'au moins un champ est rempli
                 if (!$nom_droit1 && !$sujet_contrat1 && !$unite1 && !$detail_general && 
                     !$contenu1 && !$valeur_prix1 && !$dure1 && !$surplus1) {
-                    return "❌ Aucune donnée à sauvegarder";
+                    return "❌";
                 }
 
                 $sql = "INSERT INTO dessin_immobiler1 
@@ -649,9 +649,9 @@ class ClsConnect {
                     ':surplus1' => $surplus1
                 ]);
 
-                return "✅ Les données ont été enregistrées avec succès !";
+                return "✅ ";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
@@ -660,6 +660,7 @@ class ClsConnect {
 
 
 
+    //perception2
     public function insertContractData2($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -671,7 +672,7 @@ class ClsConnect {
 
                 // Vérification qu'au moins un champ est rempli
                 if (!$date_inscri2 && !$lieu_inscri2 && !$doc2 && !$num_inscri2 && !$num_succursale2) {
-                    return "❌ Aucune donnée à sauvegarder";
+                    return "❌";
                 }
 
                 $sql = "INSERT INTO dessin_immobilier2 
@@ -688,14 +689,15 @@ class ClsConnect {
                     ':num_succursale2' => $num_succursale2
                 ]);
 
-                return "✅ Les données ont été enregistrées avec succès !";
+                return "✅ ";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
     }
 
+    //perception3
     public function insertContractData3($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -704,7 +706,7 @@ class ClsConnect {
 
                 // Vérification qu'au moins un champ est rempli
                 if (!$regime_finance_couple3 && !$remarques3) {
-                    return "❌ Aucune donnée à sauvegarder";
+                    return "❌";
                 }
 
                 $sql = "INSERT INTO dessin_immobiler3
@@ -718,9 +720,9 @@ class ClsConnect {
                     ':remarques3' => $remarques3
                 ]);
 
-                return "✅ Les données ont été enregistrées avec succès !";
+                return "✅ ";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌ " ;
             }
         }
         return null;
@@ -735,7 +737,7 @@ class ClsConnect {
 
                 // Vérification qu'au moins un champ est rempli
                 if (!$valeur_contrat_dinar && !$prix_ecriture) {
-                    return "❌ Aucune donnée à sauvegarder";
+                    return "❌ ";
                 }
 
                 $sql = "INSERT INTO dessin_immobilier4
@@ -749,9 +751,9 @@ class ClsConnect {
                     ':prix_ecriture' => $prix_ecriture
                 ]);
 
-                return "✅ Les données ont été enregistrées avec succès !";
+                return "✅ ";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
@@ -762,33 +764,32 @@ class ClsConnect {
         if (isset($_POST['submit'])) {
             try {
                 $contenue_chapitre = $_POST['contenue_chapitre'] ?? null;
-
-                // Vérification que le champ n'est pas vide
+    
                 if (!$contenue_chapitre) {
-                    return "❌ Le contenu du chapitre est requis";
+                    return "❌";
                 }
-
-                $sql = "INSERT INTO chapitres_juridiques
-                        (contenue_chapitre)
-                        VALUES 
-                        (:contenue_chapitre)";
-
+    
+                $sql = "INSERT INTO chapitres_juridiques (contenue_chapitre)
+                        VALUES (:contenue_chapitre)";
+    
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     ':contenue_chapitre' => $contenue_chapitre
                 ]);
-
-                return "✅ Le chapitre a été enregistré avec succès !";
+    
+                return "✅";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌ " ;
             }
         }
         return null;
     }
     
+    
 
 
     //القسم السابع
+    //IDpersonnes
     public function idPersonnes($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -798,36 +799,39 @@ class ClsConnect {
                 $nom_personne = $_POST['nom_personne'] ?? null;
                 $statut = $_POST['statut'] ?? null;
                 $signature = $_POST['signature'] ?? null;
-
+    
                 // Vérification que le champ n'est pas vide
                 if (!$statut) {
-                    return "❌ Le contenu du chapitre est requis";
+                    return "❌ ";
                 }
-
-                $sql = "INSERT INTO IDpersonnes(
-                    prenom_personne, prenom_pere, prenom_grandpere, nom_personne, statut, signature)
-                    VALUES (prenom_personne, prenom_pere, prenom_grandpere, nom_personne, statut, signature)";
-
+    
+                // Corrected SQL query with placeholders
+                $sql = "INSERT INTO IDpersonnes (
+                    prenom_personne, prenom_pere, prenom_grandpere, nom_personne, statut, signature
+                ) VALUES (
+                    :prenom_personne, :prenom_pere, :prenom_grandpere, :nom_personne, :statut, :signature
+                )";
+    
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':prenom_personne' => $prenom_personne
-                    ':prenom_pere' => $prenom_pere
-                    ':prenom_grandpere' => $prenom_grandpere
-                    ':contenue_chapitre' => $contenue_chapitre
-                    ':nom_personne' => $nom_personne
-                    ':statut' => $statut
+                    ':prenom_personne' => $prenom_personne,
+                    ':prenom_pere' => $prenom_pere,
+                    ':prenom_grandpere' => $prenom_grandpere,
+                    ':nom_personne' => $nom_personne,
+                    ':statut' => $statut,
                     ':signature' => $signature
                 ]);
-
-                return "✅ Le chapitre a été enregistré avec succès !";
+    
+                return "✅";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
     }
 
 
+    //perception1
     public function perception1($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -840,7 +844,7 @@ class ClsConnect {
 
                 // Vérification que le champ n'est pas vide
                 if (!$date_payement1) {
-                    return "❌ Le contenu du chapitre est requis";
+                    return "❌ ";
                 }
 
                 $sql = "INSERT INTO perception1(
@@ -849,17 +853,18 @@ class ClsConnect {
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':id_montant1' => $id_montant1
-                    ':partieabstrait1' => $partieabstrait1
-                    ':montant_paye1' => $montant_paye1
-                    ':num_recu1' => $num_recu1
+                    ':id_montant1' => $id_montant1,
+                    ':partieabstrait1' => $partieabstrait1,
+                    ':montant_obligatoire1' => $montant_obligatoire1,
+                    ':montant_paye1' => $montant_paye1,
+                    ':num_recu1' => $num_recu1,
                     ':date_payement1' => $date_payement1
 
                 ]);
 
-                return "✅ Le chapitre a été enregistré avec succès !";
+                return "✅ ";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌" ;
             }
         }
         return null;
@@ -867,39 +872,38 @@ class ClsConnect {
 
 
 
-
-    public function perception1($pdo) {
+    //perception4
+    public function perception4($pdo) {
         if (isset($_POST['submit'])) {
             try {
-                $id_montant1 = $_POST['id_montant1'] ?? null;
-                $partieabstrait1 = $_POST['partieabstrait1'] ?? null;
-                $montant_obligatoire1 = $_POST['montant_obligatoire1'] ?? null;
-                $montant_paye1 = $_POST['montant_paye1'] ?? null;
-                $num_recu1 = $_POST['num_recu1'] ?? null;
-                $date_payement1 = $_POST['date_payement1'] ?? null;
+                $nom4 = $_POST['nom4'] ?? null;
+                $valeur_dinar4 = $_POST['valeur_dinar4'] ?? null;
+                $pourcent4 = $_POST['pourcent4'] ?? null;
+                $montant_dinar4 = $_POST['montant_dinar4'] ?? null;
+                
 
                 // Vérification que le champ n'est pas vide
-                if (!$date_payement1) {
-                    return "❌ Le contenu du chapitre est requis";
+                if (!$nom4) {
+                    return "❌ ";
                 }
 
-                $sql = "INSERT INTO perception1(
-                    id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)
-                    VALUES (id_montant1, partieabstrait1, montant_obligatoire1, montant_paye1, num_recu1, date_payement1)";
+                $sql = "INSERT INTO perception4(
+                    nom4, valeur_dinar4, pourcent4, montant_dinar4)
+                    VALUES (nom4, valeur_dinar4, pourcent4, montant_dinar4)";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':id_montant1' => $id_montant1
-                    ':partieabstrait1' => $partieabstrait1
-                    ':montant_paye1' => $montant_paye1
-                    ':num_recu1' => $num_recu1
-                    ':date_payement1' => $date_payement1
+                    ':nom4' => $nom4,
+                    ':valeur_dinar4' => $valeur_dinar4,
+                    ':pourcent4' => $pourcent4,
+                    ':montant_dinar4' => $montant_dinar4
+                    
 
                 ]);
 
-                return "✅ Le chapitre a été enregistré avec succès !";
+                return "✅";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
@@ -913,6 +917,7 @@ class ClsConnect {
 
 
 
+    //perception3
     public function validerPrix($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -923,7 +928,7 @@ class ClsConnect {
 
                 // Vérification que le champ n'est pas vide
                 if (!$montant_dinar3) {
-                    return "❌ Le contenu du chapitre est requis";
+                    return "❌";
                 }
 
                 $sql = "INSERT INTO perecption3(
@@ -932,21 +937,21 @@ class ClsConnect {
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':valeur_dinar3' => $valeur_dinar3
-                    ':pourcent3' => $pourcent3
+                    ':valeur_dinar3' => $valeur_dinar3,
+                    ':pourcent3' => $pourcent3,
                     ':montant_dinar3' => $montant_dinar3
                 ]);
 
-                return "✅ Le chapitre a été enregistré avec succès !";
+                return "✅";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
     }
 
 
-
+    //perception2
     public function validationRevision($pdo) {
         if (isset($_POST['submit'])) {
             try {
@@ -959,30 +964,32 @@ class ClsConnect {
 
                 // Vérification que le champ n'est pas vide
                 if (!$statut2) {
-                    return "❌ Le contenu du chapitre est requis";
+                    return "❌";
                 }
 
                 $sql = "INSERT INTO perception2(
-                    statut2, redacteur2, redaction2, revision2, "validationFinal2")
-                    VALUES (statut2, redacteur2, redaction2, revision2, "validationFinal2")";
+                    statut2, redacteur2, redaction2, revision2, validationFinal2)
+                    VALUES (statut2, redacteur2, redaction2, revision2, validationFinal2)";
 
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
-                    ':statut2' => $statut2
-                    ':redacteur2' => $redacteur2
-                    ':redaction2' => $redaction2
-                    ':revision2' => $revision2
+                    ':statut2' => $statut2,
+                    ':redacteur2' => $redacteur2,
+                    ':redaction2' => $redaction2,
+                    ':revision2' => $revision2,
                     ':validationFinal2' => $validationFinal2
 
                 ]);
 
-                return "✅ Le chapitre a été enregistré avec succès !";
+                return "✅";
             } catch (PDOException $e) {
-                return "❌ Erreur SQL : " . $e->getMessage();
+                return "❌";
             }
         }
         return null;
     }
+
+
 
 
 

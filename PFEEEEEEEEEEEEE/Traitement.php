@@ -69,6 +69,9 @@ echo $prix;
 $perc1 = $db->perception1($pdo);
 echo $perc1;
 
+$perc4 = $db->perception4($pdo);
+echo $perc4;
+
 ?> 
 
 
@@ -90,7 +93,6 @@ echo $perc1;
         <div id="general-data" class="menu-item active">معطيات عامة</div>
         <div id="documents" class="menu-item">المؤيدات</div>
         <div id="contract-parties" class="menu-item">أطراف التعاقد</div>
-        <div id="contract-subject" class="menu-item">موضوع التعاقد</div>
         <div id="property-burdens" class="menu-item">التحملات على العقار</div>
         <div id="contract-terms" class="menu-item">الأحكام التعاقدية</div>
         <div id="extraction" class="menu-item">الاستخلاص</div>
@@ -544,87 +546,9 @@ echo $perc1;
           <button class="btn-delete">حذف</button>
           <button id="add-document" class="btn-add">إضافة سطر</button>
           </div>
+        </div>
       </div>
-
-      <!-- Contract Subject Section -->
-      <div id="contract-subject-content" class="main-content">
-            <div class="top-bar">
-            <div class="search-form">
-            <span>عدد مطلب التحرير</span>
-              <input type="text" class="search-input" name="id_demande" 
-              value="<?php echo isset($demande['id_demande']) ? htmlspecialchars($demande['id_demande']) : ''; ?>" />
-              <span>/</span>
-              <input type="text" class="search-input" name="annee_demande" 
-              value="<?php echo isset($demande['annee_demande']) ? date('Y', strtotime($demande['annee_demande']))  : ''; ?>" />           
-              <span>تاريخه</span>
-              <input type="text" class="search-input" name="date_demande" 
-              value="<?php echo isset($demande['date_demande']) ? htmlspecialchars($demande['date_demande']) : ''; ?>" />
-              <span>عدد العقد</span>
-              <input type="text" class="search-input" value="<?php echo htmlspecialchars($id_contrat); ?>" />          </div>
-              <img src="media/logo.png" alt="ONPFF" class="logo" />       
-            </div>
-            <div class="section-title">البيانات المتعلقة بموضوع التعاقد</div>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th>عدد الرتبي</th>
-                    <th>التسمية</th>
-                    <th>الصفة</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button class="btn-delete">حذف</button>
-              <button id="add-document" class="btn-add">إضافة سطر</button>         
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th>معرف الرسم</th>
-                    <th>عدد الحق</th>
-                    <th>موضوع التعاقد</th>
-                    <th>الوحدة</th>
-                    <th>التجزئة العامة</th>
-                    <th>المحتوى</th>
-                    <th>القيمة أو الثمن</th>
-                    <th>المدة</th>
-                    <th>القابض</th>
-                    <th>المستفيد</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button class="btn-delete">حذف</button>
-              <button id="add-document" class="btn-add">إضافة سطر</button>
-              <div class="price-input">
-                <label for="price">الثمن</label>
-                <input type="text" id="price" />
-              </div>
-            </div>
-      </div>
+    
     
       <!-- Property Burdens Section -->
       <div id="property-burdens-content" class="main-content">
@@ -702,58 +626,58 @@ echo $perc1;
               </form>
               <td><button class="btn-delete">حذف</button></td>
               <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>  
+             
 
 
 
 
 
-            <form method="POST" action="">
-              <h3>البيانات الأخرى المتعلقة بالحق</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th> النظام المالي للزواج</th>
-                    <th> ملاحظات أخرى</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                  <td><input type="text" name="regime_finance_couple3" required /></td>
-                  <td><input type="text" name="remarques3" required /></td>
-                   
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
+              <form method="POST" action="">
+                <h3>البيانات الأخرى المتعلقة بالحق</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th> النظام المالي للزواج</th>
+                      <th> ملاحظات أخرى</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                    <td><input type="text" name="regime_finance_couple3" required /></td>
+                    <td><input type="text" name="remarques3" required /></td>
+                    
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="submit" name="submit">حفظ</button>
+                </form>
+                <td><button class="btn-delete">حذف</button></td>
+                <button id="add-document" class="btn-add">إضافة سطر</button>
+              </form> 
+
+
+
+
+              <form method="POST" action="">
+                <h3>المبلغ الجملي لموضوع التعاقد</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th> قيمة موضوع التعاقد بالدينار</th>
+                      <th>  المبلغ بلسان القلم</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" name="" required /></td>
+                      <td><input type="text" name="" required /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button type="submit" name="submit">حفظ</button>
               </form>
               <td><button class="btn-delete">حذف</button></td>
               <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form> 
-
-
-
-
-            <form method="POST" action="">
-              <h3>المبلغ الجملي لموضوع التعاقد</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th> قيمة موضوع التعاقد بالدينار</th>
-                    <th>  المبلغ بلسان القلم</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="" required /></td>
-                    <td><input type="text" name="" required /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
             </form>          
         </div>
       </div>
@@ -779,11 +703,12 @@ echo $perc1;
           <div>المحتوى</div>
           <textarea
             name="contenue_chapitre"
-            id=""
-            style="width: 80%; height: 50%; border-radius: 10px" required
+            style="width: 80%; height: 50%; border-radius: 10px"
+            required
           ></textarea>
           <button type="submit" name="submit">حفظ</button>
-        </div>
+        </form>
+
         
         </form>
 
@@ -804,33 +729,32 @@ echo $perc1;
         </div>
         <div class="section-title">القسم السابع : امضاءات الأطراف و التعريف بها</div>
         <form method="POST" action="">
-            <table class="documents-table">
-                <thead>
+          <table class="documents-table">
+              <thead>
                   <tr>
-                    <th>الاسم</th>
-                    <th>اسم الأب</th>
-                    <th>اسم الجد</th>
-                    <th>اللقب</th>
-                    <th>الصفة</th>
-                    <th>الامضاءات</th>
+                      <th>الاسم</th>
+                      <th>اسم الأب</th>
+                      <th>اسم الجد</th>
+                      <th>اللقب</th>
+                      <th>الصفة</th>
+                      <th>الامضاءات</th>
                   </tr>
-                </thead>
-                <tbody>
+              </thead>
+              <tbody>
                   <tr>
-                    <td><input type="text" name="prenom_personne" required/></td>
-                    <td><input type="text" name="prenom_pere" required/></td>
-                    <td><input type="text" name="prenom_grandpere" required/></td>
-                    <td><input type="text" name="nom_personne" required/></td>
-                    <td><input type="text" name="statut" required/></td>
-                    <td><input type="text" name="signature" required/></td>
+                      <td><input type="text" name="prenom_personne" required/></td>
+                      <td><input type="text" name="prenom_pere" required/></td>
+                      <td><input type="text" name="prenom_grandpere" required/></td>
+                      <td><input type="text" name="nom_personne" required/></td>
+                      <td><input type="text" name="statut" required/></td>
+                      <td><input type="text" name="signature" required/></td>
                   </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
+              </tbody>
+          </table>
+          <button type="submit" name="submit">حفظ</button>
+          <button type="button" class="btn-delete">حذف</button>
+          <button type="button" id="add-document" class="btn-add">إضافة سطر</button>
+        </form>
 
 
 
@@ -976,10 +900,10 @@ echo $perc1;
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
+                    <td><input type="text" name="nom4" required/></td>
+                    <td><input type="text" name="valeur_dinar4" required/></td>
+                    <td><input type="text" name="pourcent4" required/></td>
+                    <td><input type="text" name="montant_dinar4" required/></td>
                   </tr>
                 </tbody>
               </table>
@@ -990,14 +914,13 @@ echo $perc1;
             </form>
 
 
-            
+
               <form method="post" action="verifierContrat.php" id="contractForm">
               <input type="hidden" name="id_demande" value="<?php echo htmlspecialchars($id_demande); ?>">
               <input type="hidden" name="num_contrat" value="<?php echo htmlspecialchars($id_contrat); ?>">
               <div style="text-align: center; margin-top: 20px;">
                 <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                حفظ البيانات
-                </button>
+                تأكيد العقد                </button>
               </div>
             </div>
           </div>
