@@ -1,15 +1,48 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // ====== Menu Navigation ======
+  const menuItems = document.querySelectorAll(".menu-item");
+  const contents = document.querySelectorAll(".main-content");
+
+  // Initialiser l'état actif
+  const activeMenuItem = document.querySelector(".menu-item.active");
+  if (activeMenuItem) {
+    const contentId = activeMenuItem.id + "-content";
+    const activeContent = document.getElementById(contentId);
+    if (activeContent) {
+      activeContent.classList.add("active");
+    }
+  }
+
+  menuItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      // Retirer la classe active de tous les éléments
+      menuItems.forEach((i) => i.classList.remove("active"));
+      contents.forEach((c) => c.classList.remove("active"));
+
+      // Ajouter la classe active à l'élément cliqué
+      this.classList.add("active");
+
+      // Afficher le contenu correspondant
+      const contentId = this.id + "-content";
+      const targetContent = document.getElementById(contentId);
+      if (targetContent) {
+        targetContent.classList.add("active");
+      }
+    });
+  });
+
+  // ====== Gestion des tableaux ======
   // Fonction pour ajouter une ligne
   function addRow(table) {
     const tbody = table.querySelector("tbody");
     const firstRow = tbody.querySelector("tr");
+    if (!firstRow) return;
+    
     const newRow = firstRow.cloneNode(true);
-
     // Réinitialiser les valeurs des inputs dans la nouvelle ligne
     newRow.querySelectorAll("input").forEach((input) => {
       input.value = "";
     });
-
     tbody.appendChild(newRow);
   }
 
@@ -25,18 +58,74 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".btn-add").forEach((button) => {
     button.addEventListener("click", function () {
       const table = this.previousElementSibling.previousElementSibling;
-      addRow(table);
+      if (table && table.tagName === "TABLE") {
+        addRow(table);
+      }
     });
   });
 
   // Ajouter les gestionnaires d'événements pour chaque bouton de suppression
   document.querySelectorAll(".btn-delete").forEach((button) => {
     button.addEventListener("click", function () {
-      const table = this.previousElementSibling;
-      deleteRow(table);
+      const row = this.closest("tr");
+      if (row) {
+        const tbody = row.parentNode;
+        if (tbody && tbody.children.length > 1) {
+          tbody.removeChild(row);
+        }
+      }
     });
   });
+
+  // ====== Modal Handling ======
+  const myModal = document.getElementById("myModal");
+  const openModalBtn = document.getElementById("openModalBtn");
+  const closeModalBtns = document.getElementsByClassName("close");
+  const identityForm = document.getElementById("identityForm");
+
+  if (myModal && openModalBtn && closeModalBtns.length > 0) {
+    openModalBtn.addEventListener("click", function () {
+      myModal.style.display = "block";
+    });
+
+    closeModalBtns[0].addEventListener("click", function () {
+      myModal.style.display = "none";
+    });
+
+    window.addEventListener("click", function (event) {
+      if (event.target === myModal) {
+        myModal.style.display = "none";
+      }
+    });
+  }
+
+  if (identityForm) {
+    identityForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      alert("تم حفظ بيانات وثيقة الهوية بنجاح!");
+      if (myModal) {
+        myModal.style.display = "none";
+      }
+    });
+  }
+
+  // ====== Message Functions ======
+  window.showMessage = function () {
+    const messageElement = document.getElementById("message");
+    const overlayElement = document.getElementById("overlay");
+    if (messageElement) messageElement.style.display = "block";
+    if (overlayElement) overlayElement.style.display = "block";
+    return false;
+  };
+
+  window.hideMessage = function () {
+    const messageElement = document.getElementById("message");
+    const overlayElement = document.getElementById("overlay");
+    if (messageElement) messageElement.style.display = "none";
+    if (overlayElement) overlayElement.style.display = "none";
+  };
 });
+
 document.addEventListener("DOMContentLoaded", function () {
   // Récupérer tous les éléments du menu
   const menuItems = document.querySelectorAll(".menu-item");

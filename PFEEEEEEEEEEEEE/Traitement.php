@@ -708,9 +708,7 @@ echo $perc4;
           ></textarea>
           <button type="submit" name="submit">حفظ</button>
         </form>
-
-        
-        </form>
+      </div>
 
       <!-- Extraction Section -->
       <div id="extraction-content" class="main-content">
@@ -727,207 +725,184 @@ echo $perc4;
           </div>
           <img src="media/logo.png" alt="ONPFF" class="logo" />
         </div>
+
         <div class="section-title">القسم السابع : امضاءات الأطراف و التعريف بها</div>
-        <form method="POST" action="">
+        
+        <!-- Signatures Form -->
+        <form method="POST" action="" class="extraction-form">
           <table class="documents-table">
-              <thead>
-                  <tr>
-                      <th>الاسم</th>
-                      <th>اسم الأب</th>
-                      <th>اسم الجد</th>
-                      <th>اللقب</th>
-                      <th>الصفة</th>
-                      <th>الامضاءات</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td><input type="text" name="prenom_personne" required/></td>
-                      <td><input type="text" name="prenom_pere" required/></td>
-                      <td><input type="text" name="prenom_grandpere" required/></td>
-                      <td><input type="text" name="nom_personne" required/></td>
-                      <td><input type="text" name="statut" required/></td>
-                      <td><input type="text" name="signature" required/></td>
-                  </tr>
-              </tbody>
+            <thead>
+              <tr>
+                <th>الاسم</th>
+                <th>اسم الأب</th>
+                <th>اسم الجد</th>
+                <th>اللقب</th>
+                <th>الصفة</th>
+                <th>الامضاءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="prenom_personne" required/></td>
+                <td><input type="text" name="prenom_pere" required/></td>
+                <td><input type="text" name="prenom_grandpere" required/></td>
+                <td><input type="text" name="nom_personne" required/></td>
+                <td><input type="text" name="statut" required/></td>
+                <td><input type="text" name="signature" required/></td>
+              </tr>
+            </tbody>
           </table>
-          <button type="submit" name="submit">حفظ</button>
-          <button type="button" class="btn-delete">حذف</button>
-          <button type="button" id="add-document" class="btn-add">إضافة سطر</button>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
+          </div>
         </form>
 
-
-
-
-            <form method="POST" action="">
-              <h3>معاليم التحرير و مراجع الاستخلاص</h3>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th>معرف المعلوم</th>
-                    <th> الجهة المستخلصة</th>
-                    <th> المبلغ المستوجب</th>
-                    <th>المبلغ المستخلص</th>
-                    <th>عدد الوصل</th>
-                    <th>التاريخ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="id_montant1" required/></td>
-                    <td><input type="text" name="partieabstrait1" required/></td>
-                    <td><input type="text" name="montant_obligatoire1" required/></td>
-                    <td><input type="text" name="montant_paye1" required/></td>
-                    <td><input type="text" name="num_recu1" required/></td>
-                    <td><input type="text" name="date_payement1" required/></td>
-                  
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
-
-
-            <form method="POST" action="">
-              <h3>المجموع</h3>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th> مجموع المبلغ المستوجب</th>
-                    <th> مجموع المبلغ المستخلص </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="somme_prix_obligatoire" required/></td>
-                    <td><input type="text" name="somme_prix_paye" required/></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
-
-
-
-
-
-            <form method="POST" action="">
-              <h3>البيانات المتعلقة بتأكيد العقد</h3>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th>الصفة</th>
-                    <th> التلقي</th>
-                    <th>التحرير</th>
-                    <th> المراجعة</th>
-                    <th>المصادقة النهائية</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="statut2" required/></td>
-                    <td><input type="text" name="redacteur2" required/></td>
-                    <td><input type="text" name="redaction2" required/></td>
-                    <td><input type="text" name="revision2" required/></td>
-                    <td><input type="text" name="validationFinal2" required/></td>
-                    
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
-
-
-
-
-
-            <form method="POST" action="">
-              <h3>البيانات المتعلقة بتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th> القيمة بالدينار</th>
-                    <th>  النسبة</th>
-                    <th>  المبلغ بالدينار</th>
-                    <th>ختم قابض التسجيل و امضاؤه</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="valeur_dinar3" required/></td>
-                    <td><input type="text" name="pourcent3" required/></td>
-                    <td><input type="text" name="montant_dinar3" required/></td>
-                    <td><input type="text" /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
-
-
-
-
-
-
-
-
-
-
-            <form method="POST" action="">
-              <h3>البيانات المتعلقة بتصفية معاليم الخدمات الراجعة لادارة الملكية العقارية</h3>
-              <table class="documents-table">
-                <thead>
-                  <tr>
-                    <th>  التسمية</th>
-                    <th>  القيمة بالدينار</th>
-                    <th> النسبة</th>
-                    <th> المبلغ بالدينار</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><input type="text" name="nom4" required/></td>
-                    <td><input type="text" name="valeur_dinar4" required/></td>
-                    <td><input type="text" name="pourcent4" required/></td>
-                    <td><input type="text" name="montant_dinar4" required/></td>
-                  </tr>
-                </tbody>
-              </table>
-              <button type="submit" name="submit">حفظ</button>
-            </form>
-            <td><button class="btn-delete">حذف</button></td>
-            <button id="add-document" class="btn-add">إضافة سطر</button>
-            </form>
-
-
-
-              <form method="post" action="verifierContrat.php" id="contractForm">
-              <input type="hidden" name="id_demande" value="<?php echo htmlspecialchars($id_demande); ?>">
-              <input type="hidden" name="num_contrat" value="<?php echo htmlspecialchars($id_contrat); ?>">
-              <div style="text-align: center; margin-top: 20px;">
-                <button type="submit" style="background-color: red; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-                تأكيد العقد                </button>
-              </div>
-            </div>
+        <!-- Fees Form -->
+        <form method="POST" action="" class="extraction-form">
+          <h3>معاليم التحرير و مراجع الاستخلاص</h3>
+          <table class="documents-table">
+            <thead>
+              <tr>
+                <th>معرف المعلوم</th>
+                <th> الجهة المستخلصة</th>
+                <th> المبلغ المستوجب</th>
+                <th>المبلغ المستخلص</th>
+                <th>عدد الوصل</th>
+                <th>التاريخ</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="id_montant1" required/></td>
+                <td><input type="text" name="partieabstrait1" required/></td>
+                <td><input type="text" name="montant_obligatoire1" required/></td>
+                <td><input type="text" name="montant_paye1" required/></td>
+                <td><input type="text" name="num_recu1" required/></td>
+                <td><input type="text" name="date_payement1" required/></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
           </div>
-          
-        </div>
+        </form>
+
+        <!-- Total Form -->
+        <form method="POST" action="" class="extraction-form">
+          <h3>المجموع</h3>
+          <table class="documents-table">
+            <thead>
+              <tr>
+                <th> مجموع المبلغ المستوجب</th>
+                <th> مجموع المبلغ المستخلص </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="somme_prix_obligatoire" required/></td>
+                <td><input type="text" name="somme_prix_paye" required/></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
+          </div>
+        </form>
+
+        <!-- Contract Confirmation Form -->
+        <form method="POST" action="" class="extraction-form">
+          <h3>البيانات المتعلقة بتأكيد العقد</h3>
+          <table class="documents-table">
+            <thead>
+              <tr>
+                <th>الصفة</th>
+                <th> التلقي</th>
+                <th>التحرير</th>
+                <th> المراجعة</th>
+                <th>المصادقة النهائية</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="statut2" required/></td>
+                <td><input type="text" name="redacteur2" required/></td>
+                <td><input type="text" name="redaction2" required/></td>
+                <td><input type="text" name="revision2" required/></td>
+                <td><input type="text" name="validationFinal2" required/></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
+          </div>
+        </form>
+
+        <!-- Registration Form -->
+        <form method="POST" action="" class="extraction-form">
+          <h3>البيانات المتعلقة بتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
+          <table class="documents-table">
+            <thead>
+              <tr>
+                <th> القيمة بالدينار</th>
+                <th>  النسبة</th>
+                <th>  المبلغ بالدينار</th>
+                <th>ختم قابض التسجيل و امضاؤه</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="valeur_dinar3" required/></td>
+                <td><input type="text" name="pourcent3" required/></td>
+                <td><input type="text" name="montant_dinar3" required/></td>
+                <td><input type="text" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
+          </div>
+        </form>
+
+        <!-- Property Services Form -->
+        <form method="POST" action="" class="extraction-form">
+          <h3>البيانات المتعلقة بتصفية معاليم الخدمات الراجعة لادارة الملكية العقارية</h3>
+          <table class="documents-table">
+            <thead>
+              <tr>
+                <th>  التسمية</th>
+                <th>  القيمة بالدينار</th>
+                <th> النسبة</th>
+                <th> المبلغ بالدينار</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" name="nom4" required/></td>
+                <td><input type="text" name="valeur_dinar4" required/></td>
+                <td><input type="text" name="pourcent4" required/></td>
+                <td><input type="text" name="montant_dinar4" required/></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-actions">
+            <button type="submit" name="submit">حفظ</button>
+            <button type="button" class="btn-delete">حذف</button>
+            <button type="button" class="btn-add">إضافة سطر</button>
+          </div>
+        </form>
       </div>
-</div>
-<script src="script/script.js"></script>
-</body>
+    </div>
+  </div>
+  <script src="script/script.js"></script>
+  </body>
 </html>
