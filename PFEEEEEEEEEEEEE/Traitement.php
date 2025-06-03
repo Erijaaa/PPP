@@ -57,6 +57,15 @@ echo $message4;
 $chapitre = $db->insertChapitres($pdo);
 echo $chapitre;
 
+$idPER = $db->idPersonnes($pdo);
+echo $idPER;
+
+$revVal = $db->validationRevision($pdo);
+echo $revVal ;
+
+$prix = $db->validerPrix($pdo);
+echo $prix;
+
 ?> 
 
 
@@ -791,6 +800,7 @@ echo $chapitre;
           <img src="media/logo.png" alt="ONPFF" class="logo" />
         </div>
         <div class="section-title">القسم السابع : امضاءات الأطراف و التعريف بها</div>
+        <form method="POST" action="">
             <table class="documents-table">
                 <thead>
                   <tr>
@@ -804,25 +814,25 @@ echo $chapitre;
                 </thead>
                 <tbody>
                   <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td></td>
+                    <td><input type="text" name="prenom_personne" required/></td>
+                    <td><input type="text" name="prenom_pere" required/></td>
+                    <td><input type="text" name="prenom_grandpere" required/></td>
+                    <td><input type="text" name="nom_personne" required/></td>
+                    <td><input type="text" name="statut" required/></td>
+                    <td><input type="text" name="signature" required/></td>
                   </tr>
                 </tbody>
               </table>
-              <button class="btn-delete">حذف</button>
-              <button id="add-document" class="btn-add">إضافة سطر</button>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
+
+
+
+
+            <form method="POST" action="">
               <h3>معاليم التحرير و مراجع الاستخلاص</h3>
               <table class="documents-table">
                 <thead>
@@ -843,14 +853,77 @@ echo $chapitre;
                     <td><input type="text" /></td>
                     <td><input type="text" /></td>
                     <td><input type="text" /></td>
-                    <td></td>
+                  
                   </tr>
                 </tbody>
               </table>
-              <label>المجموع : </label>
-              <input type="text"/>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
 
 
+            <form method="POST" action="">
+              <h3>المجموع</h3>
+              <table class="documents-table">
+                <thead>
+                  <tr>
+                    <th> مجموع المبلغ المستوجب</th>
+                    <th> مجموع المبلغ المستخلص </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" name="somme_prix_obligatoire" required/></td>
+                    <td><input type="text" name="somme_prix_paye" required/></td>
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
+
+
+
+
+
+            <form method="POST" action="">
+              <h3>البيانات المتعلقة بتأكيد العقد</h3>
+              <table class="documents-table">
+                <thead>
+                  <tr>
+                    <th>الصفة</th>
+                    <th> التلقي</th>
+                    <th>التحرير</th>
+                    <th> المراجعة</th>
+                    <th>المصادقة النهائية</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" name="statut2" required/></td>
+                    <td><input type="text" name="redacteur2" required/></td>
+                    <td><input type="text" name="redaction2" required/></td>
+                    <td><input type="text" name="revision2" required/></td>
+                    <td><input type="text" name="validationFinal2" required/></td>
+                    
+                  </tr>
+                </tbody>
+              </table>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
+
+
+
+
+
+            <form method="POST" action="">
               <h3>البيانات المتعلقة بتسجيل العقد لدى القباضة المالية و استخلاص معلوم ادارة الملكية العقارية</h3>
               <table class="documents-table">
                 <thead>
@@ -864,13 +937,28 @@ echo $chapitre;
                 </thead>
                 <tbody>
                   <tr>
+                    <td><input type="text" name="valeur_dinar3" required/></td>
+                    <td><input type="text" name="pourcent3" required/></td>
+                    <td><input type="text" name="montant_dinar3" required/></td>
                     <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td><input type="text" /></td>
-                    <td></td>
                   </tr>
                 </tbody>
               </table>
+              <button type="submit" name="submit">حفظ</button>
+            </form>
+            <td><button class="btn-delete">حذف</button></td>
+            <button id="add-document" class="btn-add">إضافة سطر</button>
+            </form>
+
+
+
+
+
+
+
+
+
+
               <h3>البيانات المتعلقة بتصفية معاليم الخدمات الراجعة لادارة الملكية العقارية</h3>
               <table class="documents-table">
                 <thead>

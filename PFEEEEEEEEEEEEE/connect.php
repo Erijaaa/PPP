@@ -788,6 +788,105 @@ class ClsConnect {
     
 
 
+    //القسم السابع
+    public function idPersonnes($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $prenom_personne = $_POST['prenom_personne'] ?? null;
+                $prenom_pere = $_POST['prenom_pere'] ?? null;
+                $prenom_grandpere = $_POST['prenom_grandpere'] ?? null;
+                $nom_personne = $_POST['nom_personne'] ?? null;
+                $statut = $_POST['statut'] ?? null;
+                $signature = $_POST['signature'] ?? null;
+
+                // Vérification que le champ n'est pas vide
+                if (!$statut) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO IDpersonnes(
+                    prenom_personne, prenom_pere, prenom_grandpere, nom_personne, statut, signature)
+                    VALUES (prenom_personne, prenom_pere, prenom_grandpere, nom_personne, statut, signature)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':contenue_chapitre' => $contenue_chapitre
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+    public function validerPrix($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $valeur_dinar3 = $_POST['valeur_dinar3'] ?? null;
+                $pourcent3 = $_POST['pourcent3'] ?? null;
+                $montant_dinar3 = $_POST['montant_dinar3'] ?? null;
+                
+
+                // Vérification que le champ n'est pas vide
+                if (!$montant_dinar3) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO perecption3(
+                    valeur_dinar3, pourcent3, montant_dinar3)
+                    VALUES (valeur_dinar3, pourcent3, montant_dinar3)";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':contenue_chapitre' => $contenue_chapitre
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+
+    public function validationRevision($pdo) {
+        if (isset($_POST['submit'])) {
+            try {
+                $statut2 = $_POST['statut2'] ?? null;
+                $redacteur2 = $_POST['redacteur2'] ?? null;
+                $redaction2 = $_POST['redaction2'] ?? null;
+                $revision2 = $_POST['revision2'] ?? null;
+                $validationFinal2 = $_POST['validationFinal2'] ?? null;
+                
+
+                // Vérification que le champ n'est pas vide
+                if (!$statut2) {
+                    return "❌ Le contenu du chapitre est requis";
+                }
+
+                $sql = "INSERT INTO perception2(
+                    statut2, redacteur2, redaction2, revision2, "validationFinal2")
+                    VALUES (statut2, redacteur2, redaction2, revision2, "validationFinal2")";
+
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':contenue_chapitre' => $contenue_chapitre
+                ]);
+
+                return "✅ Le chapitre a été enregistré avec succès !";
+            } catch (PDOException $e) {
+                return "❌ Erreur SQL : " . $e->getMessage();
+            }
+        }
+        return null;
+    }
+
+
+
 
 
 

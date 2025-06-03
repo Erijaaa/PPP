@@ -655,15 +655,26 @@ ob_start();
                         <td></td>
                         
                     </tr>
-                    <tr class="total-row">
-                        <td colspan="2">المجموع</td>
-                        <td class="amount"></td>
-                        <td class="amount"></td>
-                        <td colspan="3"></td>
-                    </tr>
                 </tbody>
             </table>
 
+            <h3 class="header">المجموع</h3>
+              <table class="documents-table">
+                <thead>
+                  <tr>
+                    <th> مجموع المبلغ المستوجب</th>
+                    <th> مجموع المبلغ المستخلص </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text"/></td>
+                    <td><input type="text"/></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <h3 class="header">البيانات المتعلقة بتأكيد العقد</h3>
             <!-- Signatures Table -->
             <table class="signatures-table">
                 <thead>
